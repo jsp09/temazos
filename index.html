@@ -72,6 +72,7 @@ input[type=text],input[type=number],textarea{width:100%;background:#0f0c20;borde
 .banner .btns{display:flex;flex-wrap:wrap;gap:8px}
 .reveal{border-radius:22px;padding:20px;text-align:center;margin-bottom:16px;border:3px solid}
 .reveal.ok{background:#3ddc8418;border-color:var(--green)}
+.reveal.pend{background:#ffb02e18;border-color:#ffb02e}
 .reveal.ko{background:#ff4d4d18;border-color:var(--red)}
 .reveal .yr{font-family:'Archivo Black',Impact,'Arial Black',system-ui,sans-serif;font-size:60px;line-height:1}
 .reveal .t{font-weight:800;font-size:20px;margin-top:6px}
@@ -209,7 +210,7 @@ function renderSetup(){
   <h1>TEMAZO</h1><div class="sub">¿De qué año es? Escucha y ordena la línea del tiempo</div>
   ${S.game&&S.game.winner==null?`<button class="btn cyan big" style="margin-bottom:14px" onclick="S.screen='game';save();render()">Continuar partida</button>`:''}
   <div class="panel"><h2>Jugadores o equipos</h2>
-    <p class="note" style="margin-bottom:10px">Para jugar por equipos, pon un nombre por equipo. El nivel puede ser distinto para cada uno (por ejemplo, Pro para los mayores). "Al azar" reparte Normal, Pro y Experto por igual a lo largo de la partida.</p>
+    <p class="note" style="margin-bottom:10px">Para jugar por equipos, pon un nombre por equipo. El nivel puede ser distinto para cada uno (por ejemplo, Pro para los mayores). "Al azar" reparte los turnos así: la mitad Normal, un tercio Pro y el resto Experto, igual para todos.</p>
     ${S.players.map((p,i)=>`<div class="row"><span class="dot" style="background:${COLORS[i%8]}"></span><input type="text" value="${esc(p)}" oninput="S.players[${i}]=this.value;save()"><select class="sel" onchange="S.diffs[${i}]=this.value;save()">${Object.entries(DIFF).map(([k,v])=>`<option value="${k}" ${(S.diffs[i]||'normal')===k?'selected':''}>${v}</option>`).join('')}</select><button class="x" onclick="rmP(${i})">×</button></div>`).join('')}
     <button class="btn ghost sm" onclick="S.players.push('Jugador '+(S.players.length+1));save();render()">+ Añadir jugador</button>
   </div>
@@ -319,7 +320,7 @@ function startGame(){
 }
 function beginTurn(){
   const G=G_(),P=G.players[G.turn];
-  if(P.diff==='rand'){if(!P.bag||!P.bag.length)P.bag=shuffle(['normal','pro','expert']);G.diff=P.bag.pop()}
+  if(P.diff==='rand'){if(!P.bag||!P.bag.length)P.bag=shuffle(['normal','normal','normal','pro','pro','expert']);G.diff=P.bag.pop()}
   else G.diff=P.diff||'normal';
   P.lastDiff=G.diff;G.stealNamed={};
   G.sel=null;G.steals=[];G.stealing=null;G.phase='guess';G.res=null;G.bonus=G.named=G.exact=false;G.editing=false;stopTimer();
@@ -393,7 +394,8 @@ function renderGame(){
       else{checks=`<button class="btn ${G.named?'cyan':'ghost'} sm" onclick="S.game.named=!S.game.named;save();render()">${G.named?'✓ ':''}Dijo artista y título</button>`;
         if(G.diff==='expert')checks+=`<button class="btn ${G.exact?'cyan':'ghost'} sm" onclick="S.game.exact=!S.game.exact;save();render()">${G.exact?'✓ ':''}Dijo el año exacto</button>`;}
     }
-    mid=`<div class="reveal ${(ok&&!lost)||(!ok&&sw!=null)?'ok':'ko'}"><div class="res">${txt}</div>
+    const st=(ok&&!lost)||(!ok&&sw!=null)?'ok':(ok&&lost)||(!ok&&cands.length)?'pend':'ko';
+    mid=`<div class="reveal ${st}"><div class="res">${txt}</div>
       <div class="yr" style="color:${yColor(c.y)}">${c.y}</div><div class="t">${esc(c.t)}</div><div class="a">${esc(c.a)}</div>${ref}${edit}</div>
     ${checks?`<div class="actions" style="flex-wrap:wrap">${checks}</div>`:''}
     ${lost?`<p class="note" style="margin:-4px 0 10px">Si pasas de turno sin marcarlo, la carta se descarta.</p>`:''}
@@ -542,7 +544,13 @@ async function spPlay(){
       SP.dev=dev.id;SP.devName=dev.name;spSave();
       r=await api('/me/player/play?device_id='+dev.id,{method:'PUT',body});
     }
-    if(r.ok||r.status===204){msg('🎵 Sonando…','sphint');startTimer()}
+    if(r.ok||r.status===204){msg('🎵 Sonando…','sphint');startTimer();
+      if(off>0){const dq=SP.dev?'&device_id='+SP.dev:'';
+        // Algunos dispositivos (p. ej. Spotify de escritorio) ignoran position_ms al empezar: forzamos el salto
+        for(const wait of [700,1600]){await new Promise(res=>setTimeout(res,wait));
+          try{const st=await api('/me/player');const j=st.status===200?await st.json():null;
+            if(j&&j.item&&j.item.id===id&&j.progress_ms>=off*1000-3000)break;
+            await api('/me/player/seek?position_ms='+(off*1000)+dq,{method:'PUT'})}catch(e){}}}}
     else{const j=await r.json().catch(()=>({}));msg(r.status===403?'Spotify no deja a esta cuenta: hace falta Premium y estar en User Management de la app.':'Error de Spotify: '+((j.error&&j.error.message)||r.status),'sphint')}
   }catch(e){msg(e.message,'sphint')}
 }

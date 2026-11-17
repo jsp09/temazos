@@ -21,7 +21,7 @@ Se elige para cada jugador o equipo:
 - **Normal:** basta con colocar la canción. Si además dices artista y título, ganas un comodín.
 - **Pro:** también hay que decir artista y título.
 - **Experto:** además, el año exacto.
-- **Al azar:** reparte los tres niveles por igual a lo largo de la partida.
+- **Al azar:** reparte los turnos así: la mitad Normal, un tercio Pro y el resto Experto, igual para todos.
 
 ### Comodines
 
