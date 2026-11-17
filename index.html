@@ -263,7 +263,7 @@ function spPanel(){return `
       <div class="set"><div class="l">Dónde empieza la canción<small>Spotify no dice dónde está el estribillo; hacia el segundo 40 suele quedar poco antes en la mayoría de canciones</small></div></div>
       <div class="seg" style="margin:-6px 0 16px">${[[0,'Principio'],[25,'25 s'],[40,'40 s'],['rand','Al azar']].map(([v,l])=>`<button class="${S.startAt===v?'on':''}" onclick="S.startAt=${JSON.stringify(v).replace(/"/g,"'")};save();refreshSp()">${l}</button>`).join('')}</div>
       <div class="set"><div class="l">Despertar Spotify con Atajos<small>Para iPhone: si Spotify se ha dormido, entra y sale de Spotify solo</small></div><div class="seg" style="min-width:130px"><button class="${S.atajo?'on':''}" onclick="S.atajo=true;save();refreshSp()">Sí</button><button class="${!S.atajo?'on':''}" onclick="S.atajo=false;save();refreshSp()">No</button></div></div>
-      ${S.atajo?`<p class="note" style="margin:-4px 0 12px">Crea una vez en la app Atajos un atajo llamado <b>Temazos</b> con dos acciones: <b>Abrir app</b> (Spotify) y <b>Esperar</b> (2 segundos). Nada más.</p>`:''}
+      ${S.atajo?`<p class="note" style="margin:-4px 0 12px">Crea una vez en la app Atajos un atajo llamado <b>Temazos</b> con tres acciones: <b>Abrir app</b> (Spotify), <b>Esperar</b> (2 segundos) y <b>Abrir app</b> (Safari, o el navegador que uses)</p>`:''}
       <div class="set"><div class="l">Parar la música al revelar el año</div><div class="seg" style="min-width:130px"><button class="${S.autoPause!==false?'on':''}" onclick="S.autoPause=true;save();refreshSp()">Sí</button><button class="${S.autoPause===false?'on':''}" onclick="S.autoPause=false;save();refreshSp()">No</button></div></div>`
     :`<p class="note" style="margin-bottom:12px">Para que las canciones suenen sin enseñar el título. Hace falta Spotify Premium.</p>
       <button class="btn cyan" onclick="spLogin()">Conectar Spotify</button>
@@ -681,7 +681,7 @@ async function spPlay(){
     else{const j=await r.json().catch(()=>({}));msg(r.status===403?'Spotify no deja a esta cuenta: hace falta Premium y estar en User Management de la app.':'Error de Spotify: '+((j.error&&j.error.message)||r.status),'sphint')}
   }catch(e){msg(e.message,'sphint')}
 }
-const WAKEURL=()=>'shortcuts://x-callback-url/run-shortcut?name=Temazos&x-success='+encodeURIComponent(REDIR+'?wake=1');
+const WAKEURL=()=>'shortcuts://run-shortcut?name=Temazos';
 function spWakeUI(){SP.wake=true;WAKEPEND=true;render();
   if(S.atajo){msg('Despertando Spotify…','sphint');location.href=WAKEURL()}
   else msg('Spotify está dormido. Ábrelo, vuelve aquí y sonará solo.','sphint')}
