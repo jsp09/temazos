@@ -1,11 +1,11 @@
 {
- "name": "Temazo",
- "short_name": "Temazo",
+ "name": "Temazos",
+ "short_name": "Temazos",
  "start_url": "./",
  "scope": "./",
  "display": "standalone",
- "background_color": "#0d0b1a",
- "theme_color": "#0d0b1a",
+ "background_color": "#FFE14D",
+ "theme_color": "#FFE14D",
  "icons": [
   {
    "src": "icon-180.png",

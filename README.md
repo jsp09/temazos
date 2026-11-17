@@ -1,4 +1,4 @@
-# Temazo 🎵
+# Temazos
 
 Juego de fiesta para adivinar en qué año salió cada canción. Suena un tema, lo colocas en la línea del tiempo y gana quien consiga antes 10 cartas.
 
@@ -16,7 +16,7 @@ Funciona en el navegador del móvil, sin instalar nada. Con Spotify Premium las 
 
 ### Niveles
 
-Se elige para todos en Reglas, o para cada jugador o equipo junto a su nombre:
+Se elige en Reglas y es el mismo para todos:
 
 - **Fácil:** basta con colocar la canción. Si además dices título y artista, ganas un comodín.
 - **Medio:** colocarla y decir el artista o el título. Si dices los dos, ganas un comodín.

@@ -3,141 +3,178 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Temazo</title>
+<title>Temazos</title>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icon-180.png">
 <link rel="icon" href="icon-180.png">
-<meta name="apple-mobile-web-app-title" content="Temazo">
+<meta name="apple-mobile-web-app-title" content="Temazos">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="theme-color" content="#0d0b1a">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="theme-color" content="#FFE14D">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#0d0b1a;--panel:#1a1630;--line:#2c2650;--pink:#ff2e88;--cyan:#22e4ff;--yellow:#ffd23f;--green:#3ddc84;--red:#ff4d4d;--txt:#f4f1ff;--mut:#9b94c4}
+:root{--bg:#FFE14D;--ink:#000;--pink:#FF5FA2;--sky:#4CC3FF;--orange:#FF7A1A;--purple:#9B6BFF;--mint:#7CF5C4;--green:#4BE08A;--red:#FF5A4E;--amber:#FF9F1C;--mut:#3d3a33}
 *{box-sizing:border-box;margin:0;padding:0}
-body{background:radial-gradient(ellipse at top,#2a1450 0%,var(--bg) 60%) fixed;color:var(--txt);font-family:Inter,system-ui,sans-serif;min-height:100vh}
+body{background:var(--bg);color:var(--ink);font-family:'Outfit',system-ui,sans-serif;min-height:100vh;-webkit-tap-highlight-color:transparent}
 .wrap{max-width:520px;margin:0 auto;padding:18px 16px 60px}
-h1{font-family:'Archivo Black',Impact,'Arial Black',system-ui,sans-serif,sans-serif;font-size:42px;letter-spacing:-1px;text-align:center;background:linear-gradient(90deg,var(--pink),var(--yellow),var(--cyan));-webkit-background-clip:text;background-clip:text;color:transparent;margin:6px 0 2px}
-.sub{text-align:center;color:var(--mut);font-size:14px;margin-bottom:20px}
-.panel{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:16px;margin-bottom:14px}
-.panel h2{font-size:13px;text-transform:uppercase;letter-spacing:1.5px;color:var(--mut);margin-bottom:12px}
-.panel h3{font-size:14px;margin:14px 0 8px;color:var(--txt)}
-input[type=text],input[type=number],textarea{width:100%;background:#0f0c20;border:1px solid var(--line);color:var(--txt);border-radius:12px;padding:12px;font:inherit;font-size:16px}
+.D{font-family:'Dela Gothic One',Impact,'Arial Black',sans-serif;font-weight:400}
+button,input,select{font-family:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
+.logo{display:flex;align-items:center;justify-content:center;gap:12px;margin:8px 0 4px}
+h1{font-family:'Dela Gothic One',Impact,sans-serif;font-weight:400;font-size:46px;letter-spacing:-1px;line-height:1}
+.sub{text-align:center;font-size:15px;font-weight:600;margin-bottom:20px}
+.panel{background:#fff;border:3px solid var(--ink);box-shadow:4px 4px 0 var(--ink);padding:16px;margin-bottom:16px}
+.panel h2{font-family:'Dela Gothic One',Impact,sans-serif;font-weight:400;font-size:19px;margin-bottom:12px}
+.panel h3{font-family:'Dela Gothic One',Impact,sans-serif;font-weight:400;font-size:16px;margin:18px 0 8px}
+input[type=text],input[type=number],textarea{width:100%;background:#fff;border:3px solid var(--ink);border-radius:0;padding:10px 12px;font-size:16px;font-weight:600}
 .row{display:flex;gap:8px;align-items:center;margin-bottom:8px}
-.btn{border:none;border-radius:14px;padding:13px 16px;font:inherit;font-weight:800;font-size:16px;cursor:pointer;color:#0d0b1a;background:var(--yellow);transition:transform .08s;text-decoration:none;display:inline-block;text-align:center}
-.btn:active{transform:scale(.97)}
-.btn.big{width:100%;padding:17px;font-size:18px}
-.btn.pink{background:var(--pink);color:#fff}
-.btn.cyan{background:var(--cyan)}
-.btn.ghost{background:transparent;color:var(--txt);border:1px solid var(--line)}
-.btn.sm{padding:9px 12px;font-size:14px;border-radius:10px}
-.btn:disabled{opacity:.35}
-.x{background:none;border:1px solid var(--line);color:var(--mut);border-radius:10px;width:44px;height:44px;font-size:20px;flex:none;cursor:pointer}
-.seg{display:flex;background:#0f0c20;border-radius:12px;padding:4px;gap:4px}
-.seg button{flex:1;border:none;background:none;color:var(--mut);padding:10px;border-radius:9px;font:inherit;font-weight:600;cursor:pointer}
-.seg button.on{background:var(--line);color:var(--txt)}
-.stepper{display:flex;align-items:center;gap:14px}
-.stepper button{width:44px;height:44px;border-radius:12px;border:1px solid var(--line);background:#0f0c20;color:var(--txt);font-size:22px;cursor:pointer}
-.stepper b{font-family:'Archivo Black',Impact,'Arial Black',system-ui,sans-serif;font-size:26px;min-width:36px;text-align:center}
+.btn{border:3px solid var(--ink);border-radius:0;padding:11px 16px;font-weight:800;font-size:16px;cursor:pointer;background:#fff;color:var(--ink);text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:8px;transition:transform .06s}
+.btn:active{transform:translate(2px,2px)}
+.btn.big{width:100%;padding:15px;font-family:'Dela Gothic One',Impact,sans-serif;font-weight:400;font-size:20px;background:var(--ink);color:var(--bg);box-shadow:4px 4px 0 var(--pink)}
+.btn.pink{background:var(--pink);color:var(--ink);box-shadow:4px 4px 0 var(--ink)}
+.btn.cyan{background:var(--sky);color:var(--ink)}
+.btn.orange{background:var(--orange);color:var(--ink)}
+.btn.ghost{background:#fff;color:var(--ink)}
+.btn.sm{padding:8px 12px;font-size:14px;min-height:44px}
+.btn:disabled{opacity:.4;cursor:default;transform:none}
+.x{background:#fff;border:3px solid var(--ink);width:44px;height:44px;font-size:20px;flex:none;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.sq{width:44px;height:44px;flex:none;background:#fff;border:3px solid var(--ink);display:flex;align-items:center;justify-content:center;cursor:pointer}
+.sq:disabled{opacity:.4}
+.seg{display:flex;border:3px solid var(--ink);background:#fff}
+.seg button{flex:1;border:none;border-left:3px solid var(--ink);background:#fff;padding:10px 6px;font-weight:800;font-size:14px;cursor:pointer;min-height:44px}
+.seg button:first-child{border-left:none}
+.seg button.on{background:var(--ink);color:var(--bg)}
+.stepper{display:flex;align-items:center;border:3px solid var(--ink);background:#fff}
+.stepper button{width:44px;height:44px;border:none;background:#fff;font-size:22px;font-weight:800;cursor:pointer}
+.stepper b{font-family:'Dela Gothic One',Impact,sans-serif;font-weight:400;font-size:22px;min-width:44px;text-align:center;border-left:3px solid var(--ink);border-right:3px solid var(--ink);line-height:44px}
 .set{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:14px}
-.set:last-child{margin-bottom:0}
-.set .l{font-weight:600}.set .l small{display:block;color:var(--mut);font-weight:400;font-size:12px;margin-top:2px}
-.note{font-size:13px;color:var(--mut);line-height:1.45}
-.note a{color:var(--cyan)}
-.deck{display:flex;align-items:center;gap:12px;padding:11px 12px;border:1px solid var(--line);border-radius:14px;margin-bottom:8px;cursor:pointer;background:#0f0c20}
-.deck.on{border-color:var(--pink);background:#ff2e8814}
-.deck .ck{width:24px;height:24px;border-radius:7px;border:2px solid var(--line);flex:none;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:15px}
-.deck.on .ck{background:var(--pink);border-color:var(--pink);color:#fff}
-.deck .nm{flex:1;min-width:0}.deck .nm b{display:block;font-size:15px}.deck .nm span{font-size:12px;color:var(--mut)}
-.deck .ct{font-size:13px;color:var(--mut)}
-.deck.dis{opacity:.55}
-.mini{display:flex;gap:6px;margin:-2px 0 10px 36px;flex-wrap:wrap}
-.mini a,.mini label{font-size:12px;color:var(--cyan);border:1px solid var(--line);border-radius:8px;padding:5px 9px;text-decoration:none;cursor:pointer}
+.set .l{font-weight:800}.set .l small{display:block;color:var(--mut);font-weight:400;font-size:13px;margin-top:2px}
+.note{font-size:14px;color:var(--mut);line-height:1.45}
+.note a,.steps a{color:var(--ink);font-weight:800}
+.deck{display:flex;align-items:center;gap:12px;padding:10px 12px;border:3px solid var(--ink);margin-bottom:8px;cursor:pointer;background:#fff}
+.deck.on{background:var(--pink)}
+.deck .ck{width:24px;height:24px;border:3px solid var(--ink);flex:none;display:flex;align-items:center;justify-content:center;background:#fff}
+.deck .nm{flex:1;min-width:0}.deck .nm b{display:block;font-size:15px}.deck .nm span{font-size:13px;color:var(--mut)}
+.deck.on .nm span{color:var(--ink)}
+.deck .ct{font-family:'Dela Gothic One',Impact,sans-serif;font-size:14px}
+.deck.dis{opacity:.5}
+.mini{display:flex;gap:6px;margin:-2px 0 10px 0;flex-wrap:wrap}
+.mini a,.mini label{font-size:13px;font-weight:800;color:var(--ink);border:2px solid var(--ink);background:#fff;padding:5px 9px;text-decoration:none;cursor:pointer}
 .mini input{display:none}
-.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
-.who{font-family:'Archivo Black',Impact,'Arial Black',system-ui,sans-serif;font-size:24px}
-.stat{font-size:13px;color:var(--mut)}
-.chips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
-.chip{background:var(--panel);border:1px solid var(--line);border-radius:99px;padding:6px 11px;font-size:13px;display:flex;align-items:center;gap:6px}
-.chip.cur{border-color:var(--pink);color:#fff}
-.dot{width:10px;height:10px;border-radius:50%;flex:none}
-.mystery{border-radius:22px;padding:22px 18px;text-align:center;margin-bottom:16px;background:linear-gradient(135deg,#ff2e88,#7b2ff7 55%,#22e4ff);box-shadow:0 10px 40px #ff2e8844}
-.mystery .q{font-family:'Archivo Black',Impact,'Arial Black',system-ui,sans-serif;font-size:64px;line-height:1;color:#fff;text-shadow:0 4px 0 #0003}
-.mystery .play{display:inline-block;margin-top:14px;background:#0d0b1a;color:#fff;text-decoration:none;padding:13px 20px;border-radius:99px;font-weight:800}
-.mystery .hint{font-size:12px;color:#ffffffcc;margin-top:10px}
-.banner{border-radius:16px;padding:14px;margin-bottom:14px;background:#22e4ff14;border:1px solid var(--cyan)}
-.banner b{display:block;margin-bottom:10px}
-.banner .btns{display:flex;flex-wrap:wrap;gap:8px}
-.reveal{border-radius:22px;padding:20px;text-align:center;margin-bottom:16px;border:3px solid}
-.reveal.ok{background:#3ddc8418;border-color:var(--green)}
-.reveal.pend{background:#ffb02e18;border-color:#ffb02e}
-.reveal.ko{background:#ff4d4d18;border-color:var(--red)}
-.reveal .yr{font-family:'Archivo Black',Impact,'Arial Black',system-ui,sans-serif;font-size:60px;line-height:1}
-.reveal .t{font-weight:800;font-size:20px;margin-top:6px}
-.reveal .a{color:var(--mut);margin-top:2px}
-.reveal .res{font-weight:800;margin-bottom:8px;font-size:17px}
-.tl{display:flex;flex-direction:column;gap:6px}
-.card{display:flex;align-items:center;gap:12px;border-radius:14px;padding:10px 12px;background:var(--panel);border:1px solid var(--line)}
-.card .y{font-family:'Archivo Black',Impact,'Arial Black',system-ui,sans-serif;font-size:22px;min-width:64px;text-align:center;border-radius:10px;padding:6px 0;color:#0d0b1a}
-.card .i{min-width:0;flex:1}
-.card .i b{display:block;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.card .i span{font-size:12px;color:var(--mut)}
-.card .own{font-size:11px;font-weight:800;padding:3px 7px;border-radius:99px;color:#0d0b1a;flex:none}
-.card.new{outline:2px solid var(--yellow)}
-.gap{border:2px dashed var(--line);background:none;color:var(--mut);border-radius:12px;padding:9px;font:inherit;font-size:13px;font-weight:600;cursor:pointer}
-.gap.sel{border-color:var(--yellow);color:var(--yellow);background:#ffd23f14;border-style:solid}
-.gap.st{border-color:var(--cyan);color:var(--cyan);background:#22e4ff14;border-style:solid}
-.gap:disabled{cursor:default}
-.actions{display:flex;gap:8px;margin:14px 0}
-.actions .btn{flex:1}
-.win{text-align:center;padding:30px 10px}
-.win .trophy{font-size:80px}
-.modal{position:fixed;inset:0;background:#000a;display:flex;align-items:center;justify-content:center;padding:20px;z-index:9}
-.modal .panel{max-width:420px;width:100%;max-height:90vh;overflow:auto}
+.dot{width:12px;height:12px;flex:none;border:2px solid var(--ink)}
+.psel{background:#fff;border:3px solid var(--ink);border-radius:0;padding:10px 6px;font-size:14px;font-weight:800;flex:none;max-width:110px}
+.decs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+.dec{border:3px solid var(--ink);background:#fff;padding:6px 2px;min-height:56px;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;min-width:0}
+.dec b{font-family:'Dela Gothic One',Impact,sans-serif;font-weight:400;font-size:17px;line-height:1}
+.dec small{font-size:13px;font-weight:600;line-height:1}
+.dec.on{background:var(--pink)}.dec:disabled{opacity:.35}
+.steps{margin:0 0 10px 20px}.steps li{margin-bottom:12px;font-size:14px;line-height:1.45}
+.rules li{margin:0 0 9px 18px;font-size:15px;line-height:1.45}
 .hidden{display:none!important}
-/* ---------- MODO TELE ---------- */
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.55);display:flex;align-items:flex-end;justify-content:center;padding:16px;z-index:9}
+.modal .panel{max-width:440px;width:100%;max-height:90vh;overflow:auto;box-shadow:4px 4px 0 var(--pink);margin:0}
+/* disc */
+.disc{border-radius:50%;background:#000;display:flex;align-items:center;justify-content:center;flex:none}
+.disc>i{width:80%;height:80%;border-radius:50%;border:1px solid #3a3a3a;display:flex;align-items:center;justify-content:center}
+.disc>i>i{width:75%;height:75%;border-radius:50%;border:1px solid #3a3a3a;display:flex;align-items:center;justify-content:center}
+.disc>i>i>b.qm{font-family:'Outfit',system-ui,sans-serif;font-weight:800;font-style:normal;padding-bottom:0.04em}
+.disc>i>i>b{width:65%;height:65%;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Dela Gothic One',Impact,sans-serif;font-weight:400;line-height:1;color:#000}
+/* game */
+.hdr{display:flex;gap:10px;align-items:stretch;margin-bottom:10px}
+.whob{flex:1;min-width:0;border:3px solid var(--ink);box-shadow:4px 4px 0 var(--ink);padding:7px 12px;display:flex;flex-direction:column;justify-content:center}
+.whob span{font-size:13px;font-weight:600}
+.whob b{font-family:'Dela Gothic One',Impact,sans-serif;font-weight:400;font-size:30px;line-height:1.08;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tools{display:flex;gap:6px;align-items:center}
+.scores{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-bottom:12px}
+.sc{border:3px solid var(--ink);background:#fff;padding:6px 10px;display:flex;flex-direction:column;gap:4px;min-width:0}
+.sc.cur{box-shadow:4px 4px 0 var(--ink)}
+.sc .l1{display:flex;align-items:center;gap:6px}
+.sc .nm{font-weight:800;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sc .pt{margin-left:auto;font-family:'Dela Gothic One',Impact,sans-serif;font-size:20px;line-height:1;white-space:nowrap}
+.sc .pt small{font-family:'Outfit',sans-serif;font-size:13px;font-weight:600}
+.sc .tk{display:flex;align-items:center;gap:3px;height:16px;font-size:12px;font-weight:600}
+.box{background:#fff;border:3px solid var(--ink);box-shadow:4px 4px 0 var(--ink);margin-bottom:12px}
+.mystery{display:flex}
+.discpan{width:116px;flex:none;border-right:3px solid var(--ink);display:flex;align-items:center;justify-content:center;padding:10px 0}
+.mbody{flex:1;min-width:0;padding:12px;display:flex;flex-direction:column;gap:10px}
+.lvl{align-self:flex-start;border:2px solid var(--ink);padding:2px 8px;font-size:13px;font-weight:800;background:#fff}
+.lvl-normal{background:var(--mint)}.lvl-medium{background:var(--sky)}.lvl-pro{background:var(--orange)}.lvl-expert{background:var(--red)}
+.minst{font-size:15px;line-height:1.3}
+.mbtns{display:flex;gap:8px}
+.mbtns .btn{flex:1;min-height:46px;padding:8px 10px}
+.mbtns .sq{width:46px;height:46px}
+.hint{font-size:12px;color:var(--mut);line-height:1.35}
+.timer{font-family:'Dela Gothic One',Impact,sans-serif;font-size:26px;line-height:1}.timer.hot{color:var(--red)}
+.acts{display:flex;gap:8px;margin:10px 0 12px}.acts .btn{flex:1}
+.pad{padding:12px;display:flex;flex-direction:column;gap:10px}
+.qrow{display:flex;gap:12px;align-items:center}
+.qrow .D{font-size:18px;line-height:1.15}
+.bet{display:flex;align-items:center;gap:8px;background:var(--sky);border:3px solid var(--ink);padding:8px 10px;font-weight:800}
+.bet small{margin-left:auto;font-weight:600;font-size:13px;white-space:nowrap}
+.dash{border-style:dashed!important}
+.reveal{display:flex;border:3px solid var(--ink);box-shadow:4px 4px 0 var(--ink);margin-bottom:12px}
+.reveal.ok{background:var(--green)}.reveal.pend{background:var(--amber)}.reveal.ko{background:var(--red)}
+.reveal .discpan{background:#000}
+.reveal .rb{flex:1;min-width:0;padding:12px;display:flex;flex-direction:column;gap:3px}
+.reveal .res{font-size:14px;font-weight:800;line-height:1.3}
+.reveal .yr{font-family:'Dela Gothic One',Impact,sans-serif;font-size:42px;line-height:1}
+.reveal .t{font-weight:800;font-size:16px}.reveal .a{font-size:14px}
+.reveal .note{color:var(--ink);font-size:13px;margin-top:4px}
+.link{background:none;border:none;font-size:13px;font-weight:600;text-decoration:underline;cursor:pointer;align-self:flex-start;margin-top:4px;padding:6px 0}
+.togs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px}
+.tog{min-height:44px;background:#fff;border:3px solid var(--ink);font-size:14px;font-weight:800;display:inline-flex;align-items:center;gap:8px;padding:0 12px;cursor:pointer}
+.tog i{width:16px;height:16px;border:2px solid var(--ink);display:inline-block;flex:none}
+.tog.on{background:var(--ink);color:var(--bg)}
+.tog.on i{border:none;width:auto;height:auto}
+.tlh{font-family:'Dela Gothic One',Impact,sans-serif;font-weight:400;font-size:17px;margin:6px 0 8px}
+.tl{display:flex;flex-direction:column;border:3px solid var(--ink);background:#fff}
+.tl>*{border-bottom:3px solid var(--ink)}.tl>*:last-child{border-bottom:none}
+.band{display:flex;gap:12px;align-items:center;padding:9px 12px}
+.band .by{font-family:'Dela Gothic One',Impact,sans-serif;font-size:28px;line-height:1;flex:none}
+.band .bt{display:flex;flex-direction:column;min-width:0}
+.band .bt b{font-weight:800;font-size:15px;line-height:1.25}
+.band .bt span{font-size:13px}
+.band .tags{margin-left:auto;display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex:none}
+.own{border:2px solid var(--ink);padding:1px 7px;font-size:12px;font-weight:800;white-space:nowrap;max-width:110px;overflow:hidden;text-overflow:ellipsis}
+.nuevo{background:#000;color:var(--bg);padding:2px 8px;font-size:12px;font-weight:800}
+.gap{min-height:34px;border:none;background:#fff;font-size:14px;font-weight:600;text-align:left;padding:6px 12px;display:flex;align-items:center;gap:8px;cursor:pointer;width:100%}
+.gap.sel{min-height:46px;background:#000;color:var(--bg);font-weight:800;font-size:15px}
+.gap.st{min-height:46px;background:var(--sky);font-weight:800;font-size:15px}
+.gap:disabled{cursor:default;color:#5c5c5c;font-size:13px;min-height:30px}
+.gap.sel:disabled,.gap.st:disabled{color:inherit;font-size:15px;min-height:46px}
+.gap.sel:disabled{color:var(--bg)}
 .rotate{display:none}
-body.tv .wrap{max-width:none;padding:12px 18px 24px}
-body.tv .board{display:grid;grid-template-columns:minmax(230px,30%) 1fr;gap:18px;align-items:start}
-body.tv .board>.side .actions{margin:10px 0}
-body.tv .board>.panel{margin-top:0!important}
-body.tv .top{margin-bottom:8px}
-body.tv .who{font-size:30px}
-body.tv .chips{margin-bottom:10px}
-body.tv .chip{font-size:15px;padding:7px 13px}
-body.tv .mystery{padding:18px 14px;margin-bottom:10px}
-body.tv .mystery .q{font-size:72px}
-body.tv .reveal{padding:14px;margin-bottom:10px}
-body.tv .reveal .yr{font-size:68px}
-body.tv .reveal .t{font-size:22px}
-body.tv .banner{margin-bottom:10px}
-body.tv .tl{flex-direction:row;flex-wrap:wrap;gap:8px;align-items:stretch}
-body.tv .card{flex-direction:column;justify-content:flex-start;width:118px;padding:10px 8px;gap:8px;text-align:center}
-body.tv .card .y{min-width:0;width:100%;font-size:26px}
-body.tv .card .i b{white-space:normal;font-size:13px;line-height:1.25;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
-body.tv .card .i span{display:block;margin-top:3px}
-body.tv .card .own{align-self:center}
-body.tv .gap{width:42px;padding:6px 2px;font-size:20px;line-height:1.1;display:flex;align-items:center;justify-content:center;flex-direction:column}
-body.tv .gap small{font-size:10px;font-weight:700;margin-top:4px;overflow:hidden;max-width:100%}
-@media (max-height:500px){body.tv .wrap{padding:8px 14px 16px}body.tv .who{font-size:22px}body.tv .stat{font-size:11px}body.tv .top .btn.sm{padding:6px 10px;font-size:13px;margin-top:3px!important}
-body.tv .chip{font-size:12px;padding:4px 9px}body.tv .chips{margin-bottom:8px;gap:4px}body.tv .mystery .q{font-size:46px}body.tv .mystery .play{padding:10px 16px;margin-top:8px}
-body.tv .reveal .yr{font-size:46px}body.tv .reveal .t{font-size:17px}body.tv .reveal .res{font-size:14px}body.tv .btn.big{padding:12px;font-size:16px}
-body.tv .panel{padding:10px}body.tv .panel h2{margin-bottom:8px;font-size:11px}body.tv .card{width:96px;padding:7px 6px;gap:5px}body.tv .card .y{font-size:19px;padding:4px 0}
-body.tv .card .i b{font-size:11px;-webkit-line-clamp:2}body.tv .card .i span{font-size:10px}body.tv .card .own{font-size:9px}body.tv .gap{width:34px;font-size:16px}body.tv .banner{padding:10px;font-size:13px}}
-@media (orientation:portrait){body.tv .rotate{display:block;text-align:center;font-size:13px;color:var(--yellow);background:#ffd23f14;border:1px solid var(--yellow);border-radius:12px;padding:8px;margin-bottom:10px}}
-
-.steps{margin:0 0 10px 18px}.steps li{margin-bottom:12px;font-size:14px;line-height:1.45;color:#d9d4f5}.steps a{color:var(--cyan)}
-.lvl{display:inline-block;margin-top:10px;font-size:12px;font-weight:800;padding:5px 10px;border-radius:99px;background:#0d0b1a99;color:#fff}
-.lvl-medium{background:#22e4ff;color:#0d0b1a}.lvl-pro{background:#ffd23f;color:#0d0b1a}.lvl-expert{background:#ff4d4d;color:#fff}
-.timer{margin-top:10px;font-family:'Archivo Black',Impact,sans-serif;font-size:26px;color:#fff}.timer.hot{color:var(--yellow)}
-.link{background:none;border:none;color:var(--mut);font:inherit;font-size:13px;margin-top:10px;cursor:pointer;text-decoration:underline}
-.sel{background:#0f0c20;border:1px solid var(--line);color:var(--txt);border-radius:12px;padding:12px 6px;font:inherit;font-size:14px;flex:none;max-width:100px}
-.decs{display:flex;flex-wrap:wrap;gap:6px}.dec{border:1px solid var(--line);background:#0f0c20;color:var(--txt);border-radius:12px;padding:8px 10px;font:inherit;font-weight:800;cursor:pointer;display:flex;flex-direction:column;align-items:center;min-width:58px}
-.dec:disabled{opacity:.35}.dec small{font-weight:400;color:var(--mut);font-size:11px}.dec.on{border-color:var(--pink);background:#ff2e8820}
-table.stats{width:100%;border-collapse:collapse;font-size:13px}table.stats th{color:var(--mut);font-weight:600;font-size:11px;text-align:left;padding:4px}table.stats td{padding:8px 4px;border-top:1px solid var(--line)}
-.rules li{margin:0 0 8px 18px;font-size:14px;line-height:1.45;color:#d9d4f5}
+.win{display:flex;flex-direction:column;align-items:center;gap:6px;background:var(--pink);border:3px solid var(--ink);box-shadow:4px 4px 0 var(--ink);padding:20px 16px;margin-bottom:16px;text-align:center}
+.win .D{font-size:44px;line-height:1}
+table.stats{width:100%;border-collapse:collapse;font-size:14px}
+table.stats th{font-weight:600;font-size:12px;text-align:left;padding:6px 6px}
+table.stats td{padding:9px 6px;border-top:3px solid var(--ink)}
+table.stats td.D{font-size:18px}
+/* TV */
+body.tv .wrap{max-width:none;padding:16px 22px 24px}
+body.tv .board{display:grid;grid-template-columns:minmax(260px,32%) 1fr;gap:24px;align-items:start}
+body.tv .tl{flex-direction:row;flex-wrap:wrap;gap:10px;border:none;background:transparent;align-items:stretch}
+body.tv .tl>*{border-bottom:none}
+body.tv .band{flex-direction:column;align-items:flex-start;width:150px;border:3px solid var(--ink);padding:10px;gap:6px}
+body.tv .band .by{font-size:32px}
+body.tv .band .bt b{font-size:15px}
+body.tv .band .tags{margin:auto 0 0 0;align-items:flex-start;flex-direction:column-reverse}
+body.tv .band.new{outline:5px solid var(--ink);outline-offset:3px}
+body.tv .gap{width:46px;min-height:120px;padding:4px;flex-direction:column;justify-content:center;text-align:center;font-size:11px;font-weight:800;border:3px dashed var(--ink);background:rgba(255,255,255,.6)}
+body.tv .gap.sel,body.tv .gap.st{border-style:solid}
+body.tv .gap.sel{background:#000}
+body.tv .gap .gl{display:none}
+body.tv .gap small{display:block;max-width:100%;overflow:hidden}
+body.tv .whob b{font-size:40px}
+body.tv .discpan{width:150px}
+body.tv .reveal .yr{font-size:56px}
+@media (max-height:500px){body.tv .wrap{padding:8px 14px 16px}body.tv .whob b{font-size:24px}body.tv .hdr{margin-bottom:6px}body.tv .scores{margin-bottom:8px}
+body.tv .sc{padding:4px 8px}body.tv .discpan{width:96px}body.tv .box,body.tv .reveal{margin-bottom:8px}body.tv .btn.big{padding:10px;font-size:16px}
+body.tv .band{width:104px;padding:6px;gap:3px}body.tv .band .by{font-size:20px}body.tv .band .bt b{font-size:12px}body.tv .band .bt span{font-size:11px}
+body.tv .gap{width:34px;min-height:84px}body.tv .reveal .yr{font-size:34px}body.tv .minst{font-size:13px}body.tv .mbody{gap:6px;padding:8px}}
+@media (orientation:portrait){body.tv .rotate{display:block;text-align:center;font-size:14px;font-weight:800;background:#fff;border:3px solid var(--ink);padding:8px;margin-bottom:10px}}
 </style>
 </head>
 <body>
@@ -175,28 +212,34 @@ const COMBI=[
  {k:'c_espanol',n:'Flamenquito y rock español',d:'Fondo Flamenco, Extremoduro, Arde Bogotá…'}
 ];
 const MY=[{k:'p_otra',n:'Otra playlist'}];
-const COLORS=['#ff2e88','#22e4ff','#ffd23f','#3ddc84','#b388ff','#ff8a3d','#7cf5c4','#ff6bd6'];
+const COLORS=['#FF5FA2','#4CC3FF','#FF7A1A','#9B6BFF','#7CF5C4','#FF5A4E','#B5F23D','#FFFFFF'];
 
 const LS='hitster_v2';
-const DEF={screen:'setup',refund:true,diffs:[],decades:[],timer:0,startAt:40,autoPause:true,yearFix:{},players:['Jugador 1','Jugador 2'],target:10,tokens:2,mode:'shared',sel:['temazos'],customs:{},game:null};
+const DEF={screen:'setup',level:'normal',refund:true,diffs:[],decades:[],timer:0,startAt:40,autoPause:true,yearFix:{},players:['Jugador 1','Jugador 2'],target:10,tokens:2,mode:'shared',sel:['temazos'],customs:{},game:null};
 let S=Object.assign({},DEF,load()||{});
+if(!S.level){S.level=(S.diffs&&S.diffs[0])||'normal'}S.diffs=[];
 {const ok=new Set([...DECKS,...MINE,...COMBI,...MY].map(d=>d.k));S.sel=S.sel.filter(k=>ok.has(k));if(!S.sel.length)S.sel=['temazos'];}
 function load(){try{return JSON.parse(localStorage.getItem(LS))}catch(e){return null}}
 function save(){try{localStorage.setItem(LS,JSON.stringify(S))}catch(e){}}
 const $=s=>document.querySelector(s);
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a}
-function yColor(y){const h=Math.max(0,Math.min(1,(y-1955)/70));return `hsl(${330-h*280},95%,62%)`}
+function yColor(y){return {1950:'#FFB4D2',1960:'#FF7A1A',1970:'#FFB020',1980:'#9B6BFF',1990:'#4CC3FF',2000:'#7CF5C4',2010:'#F2A0FF',2020:'#B5F23D'}[Math.max(1950,Math.min(2020,Math.floor(y/10)*10))]}
 function playUrl(c){return c.id?`https://open.spotify.com/track/${c.id}`:`https://open.spotify.com/search/${encodeURIComponent(c.a+' '+c.t)}`}
 const deckCards=k=>(DATA[k]||S.customs[k]||[]);
 const decOf=y=>Math.max(1950,Math.min(2020,Math.floor(y/10)*10));
 const DECS=[1950,1960,1970,1980,1990,2000,2010,2020];
 function pool(){
-  const seen=new Set(),out=[];
-  const fx=S.yearFix||{},dec=S.decades||[];
-  S.sel.forEach(k=>deckCards(k).forEach(([a,t,y,id])=>{const key=id||(a+'|'+t).toLowerCase();if(seen.has(key))return;seen.add(key);
-    if(fx[key])y=fx[key];if(dec.length&&!dec.includes(decOf(y)))return;out.push({a,t,y,id})}));
-  return out;
+  const fx=S.yearFix||{},dec=S.decades||[],byKey=new Map(),list=[];
+  const n=s=>String(s).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-z0-9]/g,'');
+  const nk=(a,t)=>n(String(t).split(/ - |\(|\[/)[0])+'|'+n(String(a).split(/,|&| feat| ft\.| y | x /i)[0]);
+  // La misma canción en varias barajas (aunque sea otra versión o remaster) sale una sola vez, con el año más antiguo
+  S.sel.forEach(k=>deckCards(k).forEach(([a,t,y,id])=>{const key=id||(a+'|'+t).toLowerCase(),k2=nk(a,t);
+    if(fx[key])y=fx[key];
+    const prev=byKey.get(key)||byKey.get(k2);
+    if(prev){if(y<prev.y&&!fx[prev.id||(prev.a+'|'+prev.t).toLowerCase()])prev.y=y;byKey.set(key,prev);byKey.set(k2,prev);return}
+    const c={a,t,y,id};byKey.set(key,c);byKey.set(k2,c);list.push(c)}));
+  return dec.length?list.filter(c=>dec.includes(decOf(c.y))):list;
 }
 
 /* ---------- SETUP ---------- */
@@ -205,7 +248,7 @@ function deckRow(k,n,d,count,custom){
   return `<div class="deck ${on?'on':''} ${count?'':'dis'}" onclick="toggleDeck('${k}',${count})"><div class="ck">${on?'✓':''}</div><div class="nm"><b>${esc(n)}</b><span>${esc(d)}</span></div><div class="ct">${count||(custom?'sin importar':'')}</div></div>`;
 }
 function spPanel(){return `
-    ${SP.tok?`<div class="set"><div class="l">✅ Conectado<small>Las canciones sonarán en tu Spotify sin salir del juego</small></div><button class="btn ghost sm" onclick="spLogout()">Desconectar</button></div>
+    ${SP.tok?`<div class="set"><div class="l"><span style="background:var(--green);border:2px solid #000;padding:1px 8px">Conectado</span><small>Las canciones sonarán en tu Spotify sin salir del juego</small></div><button class="btn ghost sm" onclick="spLogout()">Desconectar</button></div>
       <div class="set"><div class="l">Dispositivo<small id="devmsg">${esc(SP.devName||'El que esté activo en Spotify')}</small></div><button class="btn ghost sm" onclick="spDevices()">Elegir</button></div>
       <div id="devlist"></div>
       <div class="set"><div class="l">Dónde empieza la canción<small>Spotify no dice dónde está el estribillo; hacia el segundo 40 suele quedar poco antes en la mayoría de canciones</small></div></div>
@@ -231,11 +274,11 @@ function refreshSp(){const m=document.getElementById('modal');if(m&&!m.classList
 function renderSetup(){
   const n=pool().length;
   $('#app').innerHTML=`
-  <h1>TEMAZO</h1><div class="sub">¿De qué año es? Escucha y ordena la línea del tiempo</div>
+  <div class="logo">${disc(58,"var(--pink)","?",15)}<h1>TEMAZOS</h1></div><div class="sub">¿De qué año es? Escucha y ordena la línea del tiempo</div>
   ${S.game&&S.game.winner==null?`<button class="btn cyan big" style="margin-bottom:14px" onclick="S.screen='game';save();render()">Continuar partida</button>`:''}
   <div class="panel"><h2>Jugadores o equipos</h2>
-    <p class="note" style="margin-bottom:10px">Para jugar por equipos, pon un nombre por equipo. El nivel puede ser distinto para cada uno (por ejemplo, Pro para los mayores). "Al azar" reparte los turnos así: 4 de cada 10 Fácil, 3 Medio, 2 Pro y 1 Experto, igual para todos.</p>
-    ${S.players.map((p,i)=>`<div class="row"><span class="dot" style="background:${COLORS[i%8]}"></span><input type="text" value="${esc(p)}" oninput="S.players[${i}]=this.value;save()"><select class="sel" onchange="S.diffs[${i}]=this.value;save()">${Object.entries(DIFF).map(([k,v])=>`<option value="${k}" ${(S.diffs[i]||'normal')===k?'selected':''}>${v}</option>`).join('')}</select><button class="x" onclick="rmP(${i})">×</button></div>`).join('')}
+    <p class="note" style="margin-bottom:10px">Para jugar por equipos, pon un nombre por equipo. El nivel de dificultad se elige en Reglas y es el mismo para todos.</p>
+    ${S.players.map((p,i)=>`<div class="row"><span class="dot" style="background:${COLORS[i%8]}"></span><input type="text" value="${esc(p)}" oninput="S.players[${i}]=this.value;save()"><button class="x" onclick="rmP(${i})">×</button></div>`).join('')}
     <button class="btn ghost sm" onclick="S.players.push('Jugador '+(S.players.length+1));save();render()">+ Añadir jugador</button>
   </div>
   ${PREMIUM?`<div class="panel"><h2>Spotify Premium</h2>${spPanel()}</div>`:''}
@@ -245,8 +288,8 @@ function renderSetup(){
     <div class="seg" style="margin:-6px 0 16px"><button class="${S.mode==='shared'?'on':''}" onclick="S.mode='shared';save();render()">Compartida</button><button class="${S.mode==='own'?'on':''}" onclick="S.mode='own';save();render()">Una por jugador</button></div>
     <div class="set"><div class="l">Comodines por jugador<small>Para robar la canción si otro falla, o saltar una</small></div><div class="stepper"><button onclick="S.tokens=Math.max(0,S.tokens-1);save();render()">−</button><b>${S.tokens}</b><button onclick="S.tokens=Math.min(9,S.tokens+1);save();render()">+</button></div></div>
     <div class="set"><div class="l">Comodín que acierta por el otro lado<small>Cuando la canción es del mismo año que una carta y el comodín también estaba bien, pero la carta se la lleva otro</small></div><div class="seg" style="min-width:185px;flex:none"><button class="${S.refund?'on':''}" onclick="S.refund=true;save();render()">Se devuelve</button><button class="${S.refund?'':'on'}" onclick="S.refund=false;save();render()">Se pierde</button></div></div>
-    <div class="set"><div class="l">Nivel de dificultad<small>Se aplica a todos. Para dar un nivel distinto a cada jugador, usa el desplegable junto a su nombre</small></div></div>
-    <div class="seg" style="margin:-6px 0 16px">${Object.entries(DIFF).map(([k,v])=>{const all=S.players.every((_,i)=>(S.diffs[i]||'normal')===k);return `<button class="${all?'on':''}" onclick="S.diffs=S.players.map(()=>'${k}');save();render()">${v}</button>`}).join('')}</div>
+    <div class="set"><div class="l">Nivel de dificultad<small>Igual para todos los jugadores. "Al azar" reparte los turnos así: 4 de cada 10 Fácil, 3 Medio, 2 Pro y 1 Experto</small></div></div>
+    <div class="seg" style="margin:-6px 0 16px">${Object.entries(DIFF).map(([k,v])=>`<button class="${S.level===k?'on':''}" onclick="S.level='${k}';S.diffs=[];save();render()">${v}</button>`).join('')}</div>
     <div class="set"><div class="l">En Experto, el jugador elige la década<small>Antes de sonar la canción, el que juega en Experto elige de qué década quiere que sea</small></div><div class="seg" style="min-width:130px"><button class="${S.expertDecade!==false?'on':''}" onclick="S.expertDecade=true;save();render()">Sí</button><button class="${S.expertDecade===false?'on':''}" onclick="S.expertDecade=false;save();render()">No</button></div></div>
     <div class="set"><div class="l">Temporizador<small>Cuenta atrás desde que suena la canción. Al acabar pita y, con Spotify conectado, se para la música</small></div></div>
     <div class="seg" style="margin:-6px 0 16px">${[[0,'No'],[30,'30 s'],[45,'45 s'],[60,'60 s']].map(([v,l])=>`<button class="${S.timer===v?'on':''}" onclick="S.timer=${v};save();render()">${l}</button>`).join('')}</div>
@@ -274,7 +317,7 @@ function renderSetup(){
 }
 function toggleDec(d){S.decades=S.decades.includes(d)?S.decades.filter(x=>x!==d):[...S.decades,d];save();render()}
 function toggleDeck(k,count){if(!count)return;S.sel=S.sel.includes(k)?S.sel.filter(x=>x!==k):[...S.sel,k];save();render()}
-function rmP(i){if(S.players.length>1){S.players.splice(i,1);S.diffs.splice(i,1);save();render()}}
+function rmP(i){if(S.players.length>1){S.players.splice(i,1);save();render()}}
 
 function parseCSV(txt){
   const rows=[];let row=[],f='',q=false;
@@ -318,7 +361,7 @@ function newStats(){return{turns:0,hits:0,steals:0,stealHits:0,bought:0,dec:{}}}
 function addDec(p,c){const d=Math.floor(c.y/10)*10;p.st.dec[d]=(p.st.dec[d]||0)+1}
 function startGame(){
   const deck=shuffle(pool());UNDO=[];
-  const players=S.players.map((n,i)=>({name:n.trim()||'Jugador '+(i+1),tl:[],won:0,tokens:S.tokens,c:COLORS[i%8],diff:(S.diffs||[])[i]||'normal',bag:[],st:newStats()}));
+  const players=S.players.map((n,i)=>({name:n.trim()||'Jugador '+(i+1),tl:[],won:0,tokens:S.tokens,c:COLORS[i%8],diff:(S.diffs||[])[i]||S.level||'normal',bag:[],st:newStats()}));
   const G={mode:S.mode,players,deck,shared:[],turn:0,card:null,sel:null,steals:[],stealing:null,phase:'guess',res:null,bonus:false,named:false,exact:false,winner:null};
   if(G.mode==='shared'){const c=deck.pop();c.o=-1;G.shared.push(c)}
   else players.forEach((p,i)=>{const c=deck.pop();c.o=i;p.tl.push(c)});
@@ -344,87 +387,124 @@ function beep(){try{if(!AC)return;[0,0.25,0.5].forEach(t=>{const o=AC.createOsci
 function startTimer(){if(!S.timer||TIMER)return;unlockAudio();TEND=Date.now()+S.timer*1000;BEEPED=false;TIMER=setInterval(tick,250);tick()}
 function stopTimer(){if(TIMER){clearInterval(TIMER);TIMER=null}}
 function tick(){const e=document.getElementById('timer');const left=Math.max(0,Math.ceil((TEND-Date.now())/1000));
-  if(e){e.textContent=left?`⏱ ${left}`:'⏱ ¡Tiempo!';e.className='timer'+(left<=5?' hot':'')}
+  if(e){e.textContent=left?`${left} s`:'¡Tiempo!';e.className='timer'+(left<=5?' hot':'')}
   if(!left){if(!BEEPED){BEEPED=true;beep();if(typeof spPause==='function'&&SP.tok)spPause()}stopTimer()}}
 function onPlayLink(){unlockAudio();startTimer()}
 /* --- render --- */
+const ICO={
+  chip:(s=16)=>`<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="#000"></circle><circle cx="12" cy="12" r="6.5" fill="none" stroke="#FFE14D" stroke-width="2" stroke-dasharray="3 2.2"></circle><circle cx="12" cy="12" r="2.6" fill="#FFE14D"></circle></svg>`,
+  menu:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"></path></svg>',
+  undo:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 14 4 9l5-5"></path><path d="M4 9h11a5 5 0 0 1 0 10h-3"></path></svg>',
+  tv:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="12" rx="1"></rect><path d="M8 21h8"></path></svg>',
+  play:'<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4v16l13-8z"></path></svg>',
+  pause:'<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6 4h4v16H6zM14 4h4v16h-4z"></path></svg>',
+  restart:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7"></path><path d="M3 4v5h5"></path></svg>',
+  check:(s=18)=>`<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"></path></svg>`,
+  plus:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>',
+  clock:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="13" r="8"></circle><path d="M12 9v4l2 2M9 2h6"></path></svg>',
+  pencil:'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16z"></path></svg>'
+};
+const disc=(d,label,txt,fs)=>`<div class="disc" style="width:${d}px;height:${d}px" aria-hidden="true"><i><i><b class="${txt==='?'?'qm':''}" style="background:${label};font-size:${txt==='?'?Math.round(fs*1.25):fs}px">${txt}</b></i></i></div>`;
+const LVLNAME={normal:'Nivel fácil',medium:'Nivel medio',pro:'Nivel pro',expert:'Nivel experto'};
+const LVLINST={normal:'Colócala en la línea',medium:'Colócala y di el artista o el título',pro:'Colócala y di artista y título',expert:'Colócala y di artista, título y año exacto'};
+const tokRow=n=>n?(n>6?ICO.chip(16)+' × '+n:Array.from({length:n},()=>ICO.chip(16)).join('')):'sin comodines';
+const lc=s=>s.charAt(0).toLowerCase()+s.slice(1);
+function scoresHTML(G){
+  return `<div class="scores">${G.players.map((p,i)=>`<div class="sc ${i==G.turn?'cur':''}"><div class="l1"><span class="dot" style="background:${p.c}"></span><span class="nm">${esc(p.name)}</span><span class="pt">${score(G,p)}<small>/${S.target}</small></span></div><div class="tk" aria-label="${p.tokens} comodines">${tokRow(p.tokens)}</div></div>`).join('')}</div>`;
+}
 function renderGame(){
   const G=G_(),P=G.players[G.turn],c=G.card,tl=tlOf(G);
   let list='';
   if(G.phase!=='reveal'){
     for(let i=0;i<=tl.length;i++){
       const st=G.steals.find(s=>s.gap===i);
-      let cls='',lab=gapLabel(tl,i),dis=false,on='';
-      if(G.sel===i){cls='sel';lab='🎯 '+esc(P.name);}
-      else if(st){cls='st';lab='🃏 '+esc(G.players[st.p].name);}
+      let cls='',lab=`${ICO.plus}<span class="gl">${gapLabel(tl,i)}</span>`,dis=false,on='';
+      if(G.sel===i){cls='sel';lab=`${ICO.check(18)}<span class="gl">${G.phase==='guess'?'Aquí, '+lc(gapLabel(tl,i)):esc(P.name)+': '+lc(gapLabel(tl,i))}</span>${S.tv?'<small>'+esc(P.name.slice(0,5))+'</small>':''}`;}
+      else if(st){cls='st';lab=`${ICO.chip(20)}<span class="gl">Comodín de ${esc(G.players[st.p].name)}</span>${S.tv?'<small>'+esc(G.players[st.p].name.slice(0,5))+'</small>':''}`;}
       if(G.phase==='guess')on=`S.game.sel=${i};save();render()`;
       else if(G.phase==='steal'&&G.stealing!=null&&G.sel!==i&&!st)on=`addSteal(${i})`;
-      else dis=true;
-      if(S.tv)lab=G.sel===i?'🎯':st?'🃏<small>'+esc(G.players[st.p].name.slice(0,4))+'</small>':'+';
-      list+=`<button class="gap ${cls}" ${dis?'disabled':''} onclick="${on}">${lab}</button>`;
+      else{dis=true;if(!cls)lab=`<span class="gl">${gapLabel(tl,i)}</span>`}
+      list+=`<button class="gap ${cls}" ${dis?'disabled':''} onclick="${on}" aria-label="${gapLabel(tl,i)}">${lab}</button>`;
       if(i<tl.length)list+=cardHTML(tl[i],G);
     }
   } else list=tl.map(x=>cardHTML(x,G,ck(x)===ck(G.res.card))).join('');
-  const badge=`<div class="lvl lvl-${G.diff}">${DIFFTXT[G.diff]}</div>`;
+  const D=S.tv?((typeof window!=='undefined'&&window.innerHeight<500)?80:150):98;
   let mid='';
   if(G.phase==='guess'&&G.needDecade) mid=`
-    <div class="mystery"><div class="q">?</div>${badge}
-      <div class="hint" style="font-size:14px;margin:12px 0 8px">Turno de Experto: ${esc(P.name)} elige la década de su canción</div>
-      <div class="decs" style="justify-content:center">${DECS.map(d=>{const n=pool().filter(x=>decOf(x.y)===d).length;return `<button class="dec" ${n?'':'disabled'} onclick="pickDecade(${d})">${d===1950?'≤50s':String(d).slice(2)+'s'}<small>${n}</small></button>`}).join('')}</div></div>`;
+    <div class="box pad">
+      <div class="qrow">${disc(72,'var(--red)','?',18)}<div style="display:flex;flex-direction:column;gap:4px"><span class="lvl lvl-expert">${LVLNAME.expert}</span><span class="minst">Artista, título y año exacto. Antes, ${esc(P.name)} elige la década. El número es cuántas canciones hay.</span></div></div>
+      <div class="decs">${DECS.map(d=>{const n=pool().filter(x=>decOf(x.y)===d).length;return `<button class="dec" ${n?'':'disabled'} onclick="pickDecade(${d})" aria-label="${d}, ${n} canciones"><b>${d===1950?'≤50s':String(d).slice(2)+'s'}</b><small>${n}</small></button>`}).join('')}</div>
+    </div>`;
   else if(G.phase==='guess') mid=`
-    <div class="mystery"><div class="q">?</div>${badge}
-      ${SP.tok?`<div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:12px"><button class="play" style="border:none;font:inherit;font-weight:800;cursor:pointer;margin:0" onclick="spPlay()">${SP.started?'↺ Desde el inicio':'▶ Reproducir'}</button>${SP.started?`<button class="play" style="border:none;font:inherit;font-weight:800;cursor:pointer;margin:0" onclick="spToggle()">${SP.paused?'▶ Seguir':'⏸ Pausa'}</button>`:''}</div>
-      <div class="hint" id="sphint">Suena en tu Spotify sin enseñar el título${S.startAt?' · empieza en el segundo '+(S.startAt==='rand'?'30-60':S.startAt):''}</div>`
-      :`<a class="play" href="${playUrl(c)}" target="_blank" rel="noopener" onclick="onPlayLink()">▶ Reproducir en Spotify</a>
-      <div class="hint">Que la ponga otro jugador (el DJ) sin enseñar la pantalla y vuelva aquí</div>`}
-      ${S.timer?`<div id="timer" class="timer">${TIMER?'':`<button class="btn ghost sm" style="color:#fff;border-color:#fff8" onclick="startTimer()">⏱ ${S.timer} s · Empezar</button>`}</div>`:''}</div>
-    <div class="actions"><button class="btn big" ${G.sel==null?'disabled':''} onclick="confirmPos()">Confirmar posición</button></div>
-    <div class="actions"><button class="btn ghost sm" ${P.tokens<1?'disabled':''} onclick="skip()">Saltar (−1 🃏)</button><button class="btn ghost sm" ${P.tokens<3?'disabled':''} onclick="buyCard()">Comprar (−3 🃏)</button></div>`;
+    <div class="box mystery">
+      <div class="discpan" style="background:${P.c}">${disc(D,'#FFE14D','?',S.tv?34:22)}</div>
+      <div class="mbody">
+        <span class="lvl lvl-${G.diff}">${LVLNAME[G.diff]}</span>
+        <span class="minst">${LVLINST[G.diff]}</span>
+        ${SP.tok?`<div class="mbtns"><button class="btn orange" onclick="spPlay()">${SP.started?ICO.restart+'Desde el inicio':ICO.play+'Escuchar'}</button>${SP.started?`<button class="sq" aria-label="${SP.paused?'Seguir':'Pausa'}" onclick="spToggle()">${SP.paused?ICO.play:ICO.pause}</button>`:''}</div>
+        <span class="hint" id="sphint">Suena en tu Spotify sin enseñar el título${S.startAt?', desde el segundo '+(S.startAt==='rand'?'30 a 60':S.startAt):''}</span>`
+        :`<div class="mbtns"><a class="btn orange" href="${playUrl(c)}" target="_blank" rel="noopener" onclick="onPlayLink()">${ICO.play}Escuchar en Spotify</a></div>
+        <span class="hint">Que la ponga otro jugador sin enseñar la pantalla y vuelva aquí</span>`}
+        ${S.timer?`<div id="timer" class="timer">${TIMER?'':`<button class="btn sm" onclick="startTimer()">${ICO.clock}Empezar ${S.timer} s</button>`}</div>`:''}
+      </div>
+    </div>
+    <button class="btn big" ${G.sel==null?'disabled':''} onclick="confirmPos()">Confirmar posición</button>
+    <div class="acts"><button class="btn sm" ${P.tokens<1?'disabled':''} onclick="skip()">Saltar, ${ICO.chip(16)} 1</button><button class="btn sm" ${P.tokens<3?'disabled':''} onclick="buyCard()">Comprar, ${ICO.chip(16)} 3</button></div>`;
   else if(G.phase==='steal'){
     const cand=G.players.map((p,i)=>({p,i})).filter(x=>x.i!==G.turn&&x.p.tokens>0&&!G.steals.some(s=>s.p===x.i));
-    mid=G.stealing!=null?`<div class="banner"><b>${esc(G.players[G.stealing].name)}: elige otro hueco en la línea</b><div class="btns"><button class="btn ghost sm" onclick="S.game.stealing=null;save();render()">Cancelar</button></div></div>`
-    :`<div class="banner"><b>${esc(P.name)} ha elegido. ¿Alguien usa un comodín para intentarlo?</b>
-      <div class="btns">${cand.length?cand.map(x=>`<button class="btn cyan sm" onclick="S.game.stealing=${x.i};save();render()">${esc(x.p.name)} (🃏${x.p.tokens})</button>`).join(''):'<span class="note">Nadie tiene comodines.</span>'}</div></div>
-      <button class="btn pink big" onclick="reveal()">Revelar año</button>`;
+    const bets=G.steals.map(s=>`<div class="bet">${ICO.chip(20)}${esc(G.players[s.p].name)}: ${lc(gapLabel(tl,s.gap))}<small>${G.players[s.p].tokens?'le quedan '+G.players[s.p].tokens:'sin más'}</small></div>`).join('');
+    mid=`<div class="box pad">
+      <div class="qrow">${disc(64,'#FFE14D','?',16)}<div style="display:flex;flex-direction:column;gap:2px"><span class="D">${G.stealing!=null?esc(G.players[G.stealing].name)+', elige hueco':esc(P.name)+' ya ha elegido'}</span><span class="minst">${G.stealing!=null?'Toca otro hueco libre en la línea del tiempo.':'¿Alguien usa un comodín para apostar por otro hueco?'}</span></div></div>
+      ${bets}
+      ${G.stealing!=null?`<button class="btn sm" onclick="S.game.stealing=null;save();render()">Cancelar</button>`
+        :cand.length?cand.map(x=>`<button class="btn sm dash" onclick="S.game.stealing=${x.i};save();render()">${ICO.chip(18)}${esc(x.p.name)} usa comodín (tiene ${x.p.tokens})</button>`).join(''):(G.steals.length?'':'<span class="note">Nadie tiene comodines.</span>')}
+    </div>
+    ${G.stealing!=null?'':`<button class="btn big pink" onclick="reveal()">Revelar año</button>`}`;
   } else {
     const r=G.res,ok=r.okActive,need=!r.bought&&ok&&G.diff!=='normal';
     const lost=need&&!reqMet(G.diff,G.chk);
     const sw=stealWinner(G),cands=r.cands||[];
-    const txt=r.bought?`${esc(P.name)} compra la carta 🛒`:ok?(need?(lost?`Bien colocada, pero ${esc(P.name)} aún no ha cumplido el nivel ${DIFF[G.diff]}`:`¡Correcto! Se la queda ${esc(P.name)} 🎉`):`¡Correcto! Se la queda ${esc(P.name)} 🎉`)
-      :sw!=null?`${esc(P.name)} falla. ¡${esc(G.players[sw].name)} la roba con su comodín! 🃏`
-      :cands.length?`${esc(P.name)} falla. ${cands.map(p=>esc(G.players[p].name)).join(' y ')} acertó el hueco, pero tiene que haber dicho artista y título`
-      :`Nadie acierta, la carta se descarta 😬`;
+    const txt=r.bought?`${esc(P.name)} compra la carta`:ok?(lost?`Bien colocada. Falta confirmar el nivel ${LVLNAME[G.diff].slice(6)}`:`¡Correcto! Se la queda ${esc(P.name)}`)
+      :sw!=null?`${esc(P.name)} falla. ¡${esc(G.players[sw].name)} la roba con su comodín!`
+      :cands.length?`${esc(P.name)} falla. Falta confirmar el robo de ${cands.map(p=>esc(G.players[p].name)).join(' y ')}`
+      :`Nadie acierta, la carta se descarta`;
     const refList=ok?(r.refunded||[]):(S.refund?cands.filter(p=>p!==sw&&qualifies(G,p)):[]);
-    const keepTok=sw!=null&&levelOf(G,sw)!=='normal'?`<div class="note" style="margin-top:8px">${esc(G.players[sw].name)} recupera el comodín por robar en nivel ${DIFF[levelOf(G,sw)]}</div>`:'';
-    const ref=(refList.length?`<div class="note" style="margin-top:8px">${refList.map(p=>esc(G.players[p].name)).join(' y ')} también acertó: recupera su comodín 🃏</div>`:'')+keepTok;
-    const edit=G.editing?`<div class="row" style="margin-top:10px;justify-content:center"><input type="number" id="fixy" value="${c.y}" style="max-width:120px;text-align:center"><button class="btn sm" onclick="fixYear(+document.getElementById('fixy').value)">Guardar</button><button class="btn ghost sm" onclick="S.game.editing=false;render()">✕</button></div>`
-      :`<button class="link" onclick="S.game.editing=true;render()">✏️ Este año está mal</button>`;
+    const keepTok=sw!=null&&levelOf(G,sw)!=='normal'?`<span class="note">${esc(G.players[sw].name)} recupera el comodín por robar en ${lc(LVLNAME[levelOf(G,sw)])}</span>`:'';
+    const ref=(refList.length?`<span class="note">${refList.map(p=>esc(G.players[p].name)).join(' y ')} también acertó y recupera su comodín</span>`:'')+keepTok;
+    const edit=G.editing?`<div class="row" style="margin-top:8px"><input type="number" id="fixy" value="${c.y}" style="max-width:110px" aria-label="Año correcto"><button class="btn sm" onclick="fixYear(+document.getElementById('fixy').value)">Guardar</button><button class="sq" aria-label="Cancelar" onclick="S.game.editing=false;render()">✕</button></div>`
+      :`<button class="link" onclick="S.game.editing=true;render()">Este año está mal</button>`;
+    const tog=(on,label,js)=>`<button class="tog ${on?'on':''}" aria-pressed="${on}" onclick="${js};save();render()">${on?ICO.check(16):'<i></i>'}${label}</button>`;
     let checks='';
-    if(!ok&&!r.bought)cands.filter(p=>levelOf(G,p)!=='normal').forEach(p=>{const on=!!G.stealNamed[p];checks+=`<button class="btn ${on?'cyan':'ghost'} sm" onclick="S.game.stealNamed[${p}]=!S.game.stealNamed[${p}];save();render()">${on?'✓ ':''}${esc(G.players[p].name)} ${stealReqTxt(levelOf(G,p))}</button>`});
+    if(!ok&&!r.bought)cands.filter(p=>levelOf(G,p)!=='normal').forEach(p=>{checks+=tog(!!G.stealNamed[p],`${esc(G.players[p].name)} ${stealReqTxt(levelOf(G,p))}`,`S.game.stealNamed[${p}]=!S.game.stealNamed[${p}]`)});
     if(ok&&!r.bought){
-      checks+=REQ[G.diff].map(k=>{const on=!!(G.chk||{})[k];return `<button class="btn ${on?'cyan':'ghost'} sm" onclick="S.game.chk['${k}']=!S.game.chk['${k}'];save();render()">${on?'✓ ':''}${REQTXT[k]}</button>`}).join('');
-      if(G.diff==='normal'||G.diff==='medium')checks+=`<button class="btn ${G.bonus?'cyan':'ghost'} sm" onclick="S.game.bonus=!S.game.bonus;save();render()">${G.bonus?'✓ ':''}${G.diff==='normal'?'Además dijo título y artista':'Dijo los dos'} (+1 🃏)</button>`;
+      checks+=REQ[G.diff].map(k=>tog(!!(G.chk||{})[k],REQTXT[k],`S.game.chk['${k}']=!S.game.chk['${k}']`)).join('');
+      if(G.diff==='normal'||G.diff==='medium')checks+=tog(!!G.bonus,`${G.diff==='normal'?'Además dijo título y artista':'Dijo los dos'} (+1 comodín)`,'S.game.bonus=!S.game.bonus');
     }
     const st=(ok&&!lost)||(!ok&&sw!=null)?'ok':(ok&&lost)||(!ok&&cands.length)?'pend':'ko';
-    mid=`<div class="reveal ${st}"><div class="res">${txt}</div>
-      <div class="yr" style="color:${yColor(c.y)}">${c.y}</div><div class="t">${esc(c.t)}</div><div class="a">${esc(c.a)}</div>${ref}${edit}</div>
-    ${checks?`<div class="actions" style="flex-wrap:wrap">${checks}</div>`:''}
-    ${lost?`<p class="note" style="margin:-4px 0 10px">Si pasas de turno sin marcarlo, la carta se descarta.</p>`:''}
-    <button class="btn pink big" onclick="nextTurn()">Siguiente turno</button>`;
+    const col={ok:'var(--green)',pend:'var(--amber)',ko:'var(--red)'}[st];
+    mid=`<div class="reveal ${st}">
+      <div class="discpan">${disc(D,col,String(c.y).slice(2),S.tv?30:17)}</div>
+      <div class="rb"><span class="res">${txt}</span><span class="yr">${c.y}</span><span class="t">${esc(c.t)}</span><span class="a">${esc(c.a)}</span>${ref}${edit}</div>
+    </div>
+    ${checks?`<div class="togs">${checks}</div>`:''}
+    ${lost?`<p class="note" style="margin:-2px 0 10px">Si pasas de turno sin marcarlo, la carta se descarta.</p>`:''}
+    <button class="btn big" onclick="nextTurn()">Siguiente turno</button>`;
   }
-  const tlTitle=G.mode==='shared'?'Línea del tiempo compartida':'Línea del tiempo de '+esc(P.name);
+  const tlTitle=G.mode==='shared'?'Línea del tiempo':'Línea del tiempo de '+esc(P.name);
   $('#app').innerHTML=`
-  <div class="top"><div><div class="stat">Turno de${G.diff!=='normal'?' · '+DIFF[G.diff]:''}</div><div class="who" style="color:${P.c}">${esc(P.name)}</div></div>
-    <div style="text-align:right"><div class="stat">🎴 ${score(G,P)}/${S.target} · 🃏 ${P.tokens}</div><button class="btn ghost sm" style="margin-top:6px" ${UNDO.length?'':'disabled'} onclick="undo()">↶</button> <button class="btn ghost sm" style="margin-top:6px" onclick="S.tv=!S.tv;save();render()">📺${S.tv?' Salir':''}</button> <button class="btn ghost sm" style="margin-top:6px" onclick="gameMenu()">Menú</button></div></div>
-  <div class="rotate">📺 Gira el móvil en horizontal para el modo tele</div>
-  <div class="chips">${G.players.map((p,i)=>`<span class="chip ${i==G.turn?'cur':''}"><span class="dot" style="background:${p.c}"></span>${esc(p.name)} · ${score(G,p)} · 🃏${p.tokens}</span>`).join('')}</div>
+  <div class="hdr">
+    <div class="whob" style="background:${P.c}"><span>Le toca a</span><b>${esc(P.name)}</b></div>
+    <div class="tools"><button class="sq" aria-label="Deshacer" ${UNDO.length?'':'disabled'} onclick="undo()">${ICO.undo}</button><button class="sq" aria-label="${S.tv?'Salir del modo tele':'Modo tele'}" onclick="S.tv=!S.tv;save();render()">${ICO.tv}</button><button class="sq" aria-label="Menú" onclick="gameMenu()">${ICO.menu}</button></div>
+  </div>
+  <div class="rotate">Gira el móvil en horizontal para el modo tele</div>
+  ${scoresHTML(G)}
   <div class="board"><div class="side">${mid}</div>
-  <div class="panel" style="margin-top:16px"><h2>${tlTitle}</h2><div class="tl">${list}</div></div></div>`;
+  <div><h2 class="tlh">${tlTitle}</h2><div class="tl">${list}</div></div></div>`;
   if(TIMER)tick();
 }
 function cardHTML(x,G,isNew){
-  const own=G.mode==='shared'&&x.o>=0?`<span class="own" style="background:${G.players[x.o].c}">${esc(G.players[x.o].name.slice(0,10))}</span>`:'';
-  return `<div class="card ${isNew?'new':''}"><div class="y" style="background:${yColor(x.y)}">${x.y}</div><div class="i"><b>${esc(x.t)}</b><span>${esc(x.a)}</span></div>${own}</div>`;
+  const own=G.mode==='shared'&&x.o>=0?`<span class="own" style="background:${G.players[x.o].c}">${esc(G.players[x.o].name)}</span>`:'';
+  return `<div class="band ${isNew?'new':''}" style="background:${yColor(x.y)}"><span class="by">${x.y}</span><div class="bt"><b>${esc(x.t)}</b><span>${esc(x.a)}</span></div><div class="tags">${isNew?'<span class="nuevo">Nueva</span>':''}${own}</div></div>`;
 }
 /* --- actions --- */
 function pickDecade(d){snap();const G=G_();const used=new Set([...G.shared,...G.players.flatMap(p=>p.tl)].map(ck));
@@ -481,12 +561,12 @@ function renderWin(){
   const G=G_(),P=G.players[G.winner];
   const cards=G.mode==='shared'?G.shared.filter(c=>c.o===G.winner):P.tl;
   const rows=G.players.map(p=>{const s=p.st||newStats();const best=Object.entries(s.dec).sort((a,b)=>b[1]-a[1])[0];
-    return `<tr><td><span class="dot" style="background:${p.c};display:inline-block;margin-right:6px"></span>${esc(p.name)}</td><td><b>${score(G,p)}</b></td><td>${s.hits}/${s.turns}${s.turns?` <small>(${Math.round(100*s.hits/s.turns)}%)</small>`:''}</td><td>${s.stealHits}/${s.steals}</td><td>${best?`${String(best[0]).slice(2)}s`:'·'}</td></tr>`}).join('');
-  $('#app').innerHTML=`<div class="win"><div class="trophy">🏆</div><h1>${esc(P.name)}</h1><div class="sub">¡Gana con ${score(G,P)} cartas!</div></div>
-  <div class="panel"><h2>Estadísticas</h2><table class="stats"><tr><th></th><th>Cartas</th><th>Aciertos en su turno</th><th>Robos</th><th>Su década</th></tr>${rows}</table></div>
-  <div class="panel"><h2>Cartas de ${esc(P.name)}</h2><div class="tl">${cards.map(x=>cardHTML(x,G)).join('')}</div></div>
-  <button class="btn pink big" onclick="startGame()">Revancha</button>
-  <button class="btn ghost big" style="margin-top:10px" onclick="S.game=null;S.screen='setup';save();render()">Menú</button>`;
+    return `<tr style="background:${p.c}"><td><b>${esc(p.name)}</b></td><td class="D">${score(G,p)}</td><td>${s.hits} de ${s.turns}</td><td>${s.stealHits} de ${s.steals}</td><td>${best?(best[0]<2000?String(best[0]).slice(2)+'s':best[0]+'s'):'-'}</td></tr>`}).join('');
+  $('#app').innerHTML=`<div class="win">${disc(120,'#FFE14D',String(score(G,P)),26)}<span style="font-size:15px;font-weight:800;margin-top:8px">Gana la partida</span><span class="D">${esc(P.name)}</span></div>
+  <div class="panel" style="padding:0"><table class="stats"><tr><th>Equipo</th><th>Cartas</th><th>Aciertos</th><th>Robos</th><th>Su década</th></tr>${rows}</table></div>
+  <h2 class="tlh">Cartas de ${esc(P.name)}</h2><div class="tl" style="margin-bottom:16px">${cards.map(x=>cardHTML(x,G)).join('')}</div>
+  <button class="btn big" onclick="startGame()">Revancha</button>
+  <button class="btn" style="width:100%;margin-top:12px" onclick="S.game=null;S.screen='setup';save();render()">Volver al menú</button>`;
 }
 function gameMenu(sure){
   $('#modalBody').innerHTML=`<h2>Partida en curso</h2>
@@ -502,11 +582,11 @@ function showRules(){
   $('#modalBody').innerHTML=`<h2>Cómo se juega</h2><ul class="rules">
   <li>${S.mode==='shared'?'Hay una sola línea del tiempo para todos, que empieza con una canción.':'Cada jugador empieza con una canción revelada en su propia línea.'}</li>
   <li>En tu turno suena una canción sin que veas el título. Elige el hueco donde crees que va y confirma. Si el año coincide con el de una carta, vale a cualquiera de sus dos lados.</li>
-  <li>Antes de revelar, los demás pueden gastar un comodín 🃏 para apostar por otro hueco. Si tú fallas y uno de ellos acierta, se lleva la carta.</li>
+  <li>Antes de revelar, los demás pueden gastar un comodín para apostar por otro hueco. Si tú fallas y uno de ellos acierta, se lleva la carta.</li>
   <li>Niveles: Fácil, solo colocarla. Medio, colocarla y decir el artista o el título (si dices los dos, ganas un comodín). Pro, colocarla y decir artista y título. Experto, además el año exacto, con una canción de la década que elija el jugador.</li>
   <li>En Medio, Pro y Experto, quien roba con comodín también tiene que cumplir su nivel (artista o título en Medio; artista y título en Pro y Experto); si lo consigue, recupera el comodín.</li>
   <li>Con 1 comodín saltas una canción; con 3 compras la carta y se coloca sola.</li>
-  <li>Si un año está mal, corrígelo con ✏️ al revelar. ↶ deshace el último paso.</li>
+  <li>Si un año está mal, corrígelo al revelar con "Este año está mal". El botón de la flecha deshace el último paso.</li>
   <li>Gana quien consiga primero ${S.target} cartas.</li></ul>
   <button class="btn big" onclick="$('#modal').classList.add('hidden')">Vamos</button>`;
   $('#modal').classList.remove('hidden');
@@ -568,22 +648,21 @@ async function spPlay(){
       SP.dev=dev.id;SP.devName=dev.name;spSave();
       r=await api('/me/player/play?device_id='+dev.id,{method:'PUT',body});
     }
-    if(r.ok||r.status===204){SP.started=true;SP.paused=false;render();msg('🎵 Sonando…','sphint');startTimer();
+    if(r.ok||r.status===204){SP.started=true;SP.paused=false;render();msg('Sonando…','sphint');startTimer();
       if(off>0){const dq=SP.dev?'&device_id='+SP.dev:'';
-        // Algunos dispositivos (p. ej. Spotify de escritorio) ignoran position_ms al empezar: forzamos el salto
-        for(const wait of [700,1600]){await new Promise(res=>setTimeout(res,wait));
-          try{const st=await api('/me/player');const j=st.status===200?await st.json():null;
-            if(j&&j.item&&j.item.id===id&&j.progress_ms>=off*1000-3000)break;
-            await api('/me/player/seek?position_ms='+(off*1000)+dq,{method:'PUT'})}catch(e){}}}}
+        // Algunos dispositivos ignoran position_ms al arrancar. Comprobamos una sola vez y solo saltamos si empezó claramente desde el principio
+        await new Promise(res=>setTimeout(res,900));
+        try{const st=await api('/me/player');const j=st.status===200?await st.json():null;
+          if(j&&typeof j.progress_ms==='number'&&j.progress_ms<off*1000-5000)await api('/me/player/seek?position_ms='+(off*1000)+dq,{method:'PUT'})}catch(e){}}}
     else{const j=await r.json().catch(()=>({}));msg(r.status===403?'Spotify no deja a esta cuenta: hace falta Premium y estar en User Management de la app.':'Error de Spotify: '+((j.error&&j.error.message)||r.status),'sphint')}
   }catch(e){msg(e.message,'sphint')}
 }
 async function spPause(){try{const r=await api('/me/player/pause'+(SP.dev?'?device_id='+SP.dev:''),{method:'PUT'});SP.paused=true;
   if(!(r.ok||r.status===204)){const j=await r.json().catch(()=>({}));msg('No se pudo pausar: '+((j.error&&j.error.message)||r.status)+'. Si suena en el iPhone, abre Spotify un momento y vuelve.','sphint')}
-  else msg('⏸ En pausa','sphint');if(S.screen==='game'&&S.game&&S.game.phase==='guess')render()}catch(e){msg(e.message,'sphint')}}
+  else msg('En pausa','sphint');if(S.screen==='game'&&S.game&&S.game.phase==='guess')render()}catch(e){msg(e.message,'sphint')}}
 async function spResume(){try{const r=await api('/me/player/play'+(SP.dev?'?device_id='+SP.dev:''),{method:'PUT'});SP.paused=false;
   if(!(r.ok||r.status===204)){const j=await r.json().catch(()=>({}));msg('No se pudo continuar: '+((j.error&&j.error.message)||r.status),'sphint')}
-  else msg('🎵 Sonando…','sphint');render()}catch(e){msg(e.message,'sphint')}}
+  else msg('Sonando…','sphint');render()}catch(e){msg(e.message,'sphint')}}
 function spToggle(){return SP.paused?spResume():spPause()}
 async function spDevices(){
   try{const d=await (await api('/me/player/devices')).json();const L=d.devices||[];
