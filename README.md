@@ -24,7 +24,7 @@ Se elige en Reglas y es el mismo para todos:
 - **Experto:** además, el año exacto. Antes de sonar, el jugador elige de qué década quiere la canción.
 - **Al azar:** de cada 10 turnos, 4 Fácil, 3 Medio, 2 Pro y 1 Experto, igual para todos.
 
-Al revelar, la tarjeta sale en verde si está todo acertado, en naranja si falta confirmar lo que se ha dicho y en rojo si es un fallo.
+En la línea del tiempo, el color de cada carta indica su década y los cuadraditos el nivel en que se ganó (uno Fácil, dos Medio, tres Pro, cuatro Experto; la ficha, comprada). Al revelar, la tarjeta sale en verde si está todo acertado, en naranja si falta confirmar lo que se ha dicho y en rojo si es un fallo.
 
 ### Comodines
 

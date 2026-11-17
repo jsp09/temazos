@@ -80,7 +80,7 @@ input[type=text],input[type=number],textarea{width:100%;background:#fff;border:3
 .disc>i{width:80%;height:80%;border-radius:50%;border:1px solid #3a3a3a;display:flex;align-items:center;justify-content:center}
 .disc>i>i{width:75%;height:75%;border-radius:50%;border:1px solid #3a3a3a;display:flex;align-items:center;justify-content:center}
 .disc>i>i>b.qm{font-family:'Outfit',system-ui,sans-serif;font-weight:800;font-style:normal;padding-bottom:0.04em}
-.disc>i>i>b{width:65%;height:65%;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Dela Gothic One',Impact,sans-serif;font-weight:400;line-height:1;color:#000}
+.disc>i>i>b{width:65%;height:65%;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Outfit',system-ui,sans-serif;font-weight:800;font-style:normal;line-height:1;color:#000;font-variant-numeric:lining-nums tabular-nums;letter-spacing:-0.02em}
 /* game */
 .hdr{display:flex;gap:10px;align-items:stretch;margin-bottom:10px}
 .whob{flex:1;min-width:0;border:3px solid var(--ink);box-shadow:4px 4px 0 var(--ink);padding:7px 12px;display:flex;flex-direction:column;justify-content:center}
@@ -137,7 +137,16 @@ input[type=text],input[type=number],textarea{width:100%;background:#fff;border:3
 .band .bt b{font-weight:800;font-size:15px;line-height:1.25}
 .band .bt span{font-size:13px}
 .band .tags{margin-left:auto;display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex:none}
-.own{border:2px solid var(--ink);padding:1px 7px;font-size:12px;font-weight:800;white-space:nowrap;max-width:110px;overflow:hidden;text-overflow:ellipsis}
+.own{border:2px solid var(--ink);background:#fff;padding:1px 7px;font-size:12px;font-weight:800;white-space:nowrap;max-width:120px;overflow:hidden;text-overflow:ellipsis;display:inline-flex;align-items:center;gap:5px}
+.own i{width:10px;height:10px;border:2px solid var(--ink);flex:none;display:inline-block}
+.legend{display:flex;flex-direction:column;gap:5px;font-size:13px;font-weight:700;margin:-2px 0 8px}
+.legend .lg{display:flex;flex-wrap:wrap;gap:5px 12px}
+.lvm{display:inline-flex;gap:2px;align-items:center}
+.lvm i{width:9px;height:9px;border:2px solid var(--ink);background:#fff;display:inline-block}
+.lvm i.f{background:var(--ink)}
+.legend .lvm{margin-right:5px}
+.legend span{display:inline-flex;align-items:center;gap:5px}
+.legend i.dq{width:14px;height:14px;border:2px solid var(--ink);display:inline-block}
 .nuevo{background:#000;color:var(--bg);padding:2px 8px;font-size:12px;font-weight:800}
 .gap{min-height:34px;border:none;background:#fff;font-size:14px;font-weight:600;text-align:left;padding:6px 12px;display:flex;align-items:center;gap:8px;cursor:pointer;width:100%}
 .gap.sel{min-height:46px;background:#000;color:var(--bg);font-weight:800;font-size:15px}
@@ -363,8 +372,8 @@ function startGame(){
   const deck=shuffle(pool());UNDO=[];
   const players=S.players.map((n,i)=>({name:n.trim()||'Jugador '+(i+1),tl:[],won:0,tokens:S.tokens,c:COLORS[i%8],diff:(S.diffs||[])[i]||S.level||'normal',bag:[],st:newStats()}));
   const G={mode:S.mode,players,deck,shared:[],turn:0,card:null,sel:null,steals:[],stealing:null,phase:'guess',res:null,bonus:false,named:false,exact:false,winner:null};
-  if(G.mode==='shared'){const c=deck.pop();c.o=-1;G.shared.push(c)}
-  else players.forEach((p,i)=>{const c=deck.pop();c.o=i;p.tl.push(c)});
+  if(G.mode==='shared'){const c=deck.pop();c.o=-1;c.lv='start';G.shared.push(c)}
+  else players.forEach((p,i)=>{const c=deck.pop();c.o=i;c.lv='start';p.tl.push(c)});
   G.card=deck.pop();S.game=G;beginTurn();S.screen='game';save();render();
 }
 function beginTurn(){
@@ -404,7 +413,7 @@ const ICO={
   clock:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="13" r="8"></circle><path d="M12 9v4l2 2M9 2h6"></path></svg>',
   pencil:'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16z"></path></svg>'
 };
-const disc=(d,label,txt,fs)=>`<div class="disc" style="width:${d}px;height:${d}px" aria-hidden="true"><i><i><b class="${txt==='?'?'qm':''}" style="background:${label};font-size:${txt==='?'?Math.round(fs*1.25):fs}px">${txt}</b></i></i></div>`;
+const disc=(d,label,txt,fs)=>`<div class="disc" style="width:${d}px;height:${d}px" aria-hidden="true"><i><i><b class="${txt==='?'?'qm':''}" style="background:${label};font-size:${txt==='?'?Math.round(fs*1.25):Math.round(fs*1.2)}px">${txt}</b></i></i></div>`;
 const LVLNAME={normal:'Nivel fácil',medium:'Nivel medio',pro:'Nivel pro',expert:'Nivel experto'};
 const LVLINST={normal:'Colócala en la línea',medium:'Colócala y di el artista o el título',pro:'Colócala y di artista y título',expert:'Colócala y di artista, título y año exacto'};
 const tokRow=n=>n?(n>6?ICO.chip(16)+' × '+n:Array.from({length:n},()=>ICO.chip(16)).join('')):'sin comodines';
@@ -499,12 +508,19 @@ function renderGame(){
   <div class="rotate">Gira el móvil en horizontal para el modo tele</div>
   ${scoresHTML(G)}
   <div class="board"><div class="side">${mid}</div>
-  <div><h2 class="tlh">${tlTitle}</h2><div class="tl">${list}</div></div></div>`;
+  <div><h2 class="tlh">${tlTitle}</h2>${legendHTML(tl)}<div class="tl">${list}</div></div></div>`;
   if(TIMER)tick();
 }
+const LVN={normal:1,medium:2,pro:3,expert:4};
+const LVNAME2={normal:'Fácil',medium:'Medio',pro:'Pro',expert:'Experto'};
+const meter=(lv,big)=>LVN[lv]?`<span class="lvm" role="img" aria-label="Ganada en nivel ${LVNAME2[lv]}">${[1,2,3,4].map(k=>`<i class="${k<=LVN[lv]?'f':''}"></i>`).join('')}</span>`:lv==='buy'?`<span class="lvm buy" role="img" aria-label="Comprada">${ICO.chip(14)}</span>`:'';
+function legendHTML(tl){
+  const decs=[...new Set(tl.map(x=>decOf(x.y)))].sort();
+  const lvs=['normal','medium','pro','expert','buy'].filter(k=>tl.some(x=>x.lv===k));
+  return `<div class="legend"><span class="lg">${decs.map(d=>`<span><i class="dq" style="background:${yColor(d)}"></i>${d===1950?'≤50s':String(d).slice(2)+'s'}</span>`).join('')}</span>${lvs.length?`<span class="lg">${lvs.map(k=>`<span>${meter(k)}${k==='buy'?'Comprada':LVNAME2[k]}</span>`).join('')}</span>`:''}</div>`}
 function cardHTML(x,G,isNew){
-  const own=G.mode==='shared'&&x.o>=0?`<span class="own" style="background:${G.players[x.o].c}">${esc(G.players[x.o].name)}</span>`:'';
-  return `<div class="band ${isNew?'new':''}" style="background:${yColor(x.y)}"><span class="by">${x.y}</span><div class="bt"><b>${esc(x.t)}</b><span>${esc(x.a)}</span></div><div class="tags">${isNew?'<span class="nuevo">Nueva</span>':''}${own}</div></div>`;
+  const own=G.mode==='shared'&&x.o>=0?`<span class="own"><i style="background:${G.players[x.o].c}"></i>${esc(G.players[x.o].name)}</span>`:'';
+  return `<div class="band ${isNew?'new':''}" style="background:${yColor(x.y)}"><span class="by">${x.y}</span><div class="bt"><b>${esc(x.t)}</b><span>${esc(x.a)}</span></div><div class="tags">${isNew?'<span class="nuevo">Nueva</span>':''}${own}${meter(x.lv)}</div></div>`;
 }
 /* --- actions --- */
 function pickDecade(d){snap();const G=G_();const used=new Set([...G.shared,...G.players.flatMap(p=>p.tl)].map(ck));
@@ -519,7 +535,7 @@ function reveal(){
   const okSteals=G.steals.filter(s=>fits(tl,s.gap,y)).map(s=>s.p);
   P.st.turns++;G.steals.forEach(s=>G.players[s.p].st.steals++);
   let refunded=[];
-  if(okActive){c.o=G.turn;tl.splice(G.sel,0,c);if(G.mode==='shared')P.won++;refunded=S.refund?okSteals:[];refunded.forEach(p=>G.players[p].tokens++)}
+  if(okActive){c.o=G.turn;c.lv=G.diff;tl.splice(G.sel,0,c);if(G.mode==='shared')P.won++;refunded=S.refund?okSteals:[];refunded.forEach(p=>G.players[p].tokens++)}
   G.res={okActive,where:okActive?G.turn:null,card:c,refunded,cands:okActive?[]:okSteals};G.stealNamed={};
   G.phase='reveal';G.bonus=false;G.chk={};
   if(typeof spPause==='function'&&SP.tok&&S.autoPause!==false)spPause();
@@ -527,7 +543,7 @@ function reveal(){
 }
 function buyCard(){
   snap();stopTimer();const G=G_(),P=G.players[G.turn],tl=tlOf(G),c=G.card;
-  P.tokens-=3;P.st.bought++;c.o=G.turn;insertSorted(tl,c);if(G.mode==='shared')P.won++;
+  P.tokens-=3;P.st.bought++;c.o=G.turn;c.lv='buy';insertSorted(tl,c);if(G.mode==='shared')P.won++;
   G.res={okActive:true,where:G.turn,card:c,refunded:[],bought:true};G.phase='reveal';
   if(typeof spPause==='function'&&SP.tok&&S.autoPause!==false)spPause();
   save();render();
@@ -549,7 +565,7 @@ function nextTurn(){
     else{const tl=tlOf(G),k=tl.findIndex(x=>ck(x)===ck(c));if(k>=0)tl.splice(k,1);if(G.mode==='shared')P.won--}
   } else if(r.bought)addDec(P,c);
   else{const w=stealWinner(G);
-    if(w!=null){const W=G.players[w],s=G.steals.find(s=>s.p===w);c.o=w;
+    if(w!=null){const W=G.players[w],s=G.steals.find(s=>s.p===w);c.o=w;c.lv=levelOf(G,w);
       if(G.mode==='shared'){G.shared.splice(s.gap,0,c);W.won++}else insertSorted(W.tl,c);
       W.st.stealHits++;addDec(W,c);if(levelOf(G,w)!=='normal')W.tokens++}
     if(S.refund)(r.cands||[]).filter(p=>p!==w&&qualifies(G,p)).forEach(p=>G.players[p].tokens++);}
@@ -572,7 +588,7 @@ function gameMenu(sure){
   $('#modalBody').innerHTML=`<h2>Partida en curso</h2>
   <button class="btn cyan big" onclick="closeModal()">Continuar</button>
   <button class="btn ${sure==='restart'?'pink':'ghost'} big" style="margin-top:10px" onclick="${sure==='restart'?'closeModal();startGame()':"gameMenu('restart')"}">${sure==='restart'?'¿Seguro? Pulsa otra vez para reiniciar':'Reiniciar partida (mismos ajustes)'}</button>
-  <button class="btn ghost big" style="margin-top:10px" onclick="closeModal();S.screen='setup';save();render()">Nueva partida con otros ajustes</button>
+  <button class="btn ghost big" style="margin-top:10px" onclick="closeModal();S.game=null;UNDO=[];S.screen='setup';save();render()">Nueva partida con otros ajustes</button>
   ${PREMIUM?`<h2 style="margin-top:20px">Música (Spotify)</h2>${spPanel()}`:''}
   <button class="btn ghost sm" style="margin-top:14px;width:100%" onclick="showRules()">Cómo se juega</button>`;
   $('#modal').classList.remove('hidden');
