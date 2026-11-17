@@ -11,7 +11,7 @@
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:radial-gradient(ellipse at top,#2a1450 0%,var(--bg) 60%) fixed;color:var(--txt);font-family:Inter,system-ui,sans-serif;min-height:100vh}
 .wrap{max-width:520px;margin:0 auto;padding:18px 16px 60px}
-h1{font-family:'Archivo Black',sans-serif;font-size:42px;letter-spacing:-1px;text-align:center;background:linear-gradient(90deg,var(--pink),var(--yellow),var(--cyan));-webkit-background-clip:text;background-clip:text;color:transparent;margin:6px 0 2px}
+h1{font-family:'Archivo Black',Impact,'Arial Black',system-ui,sans-serif,sans-serif;font-size:42px;letter-spacing:-1px;text-align:center;background:linear-gradient(90deg,var(--pink),var(--yellow),var(--cyan));-webkit-background-clip:text;background-clip:text;color:transparent;margin:6px 0 2px}
 .sub{text-align:center;color:var(--mut);font-size:14px;margin-bottom:20px}
 .panel{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:16px;margin-bottom:14px}
 .panel h2{font-size:13px;text-transform:uppercase;letter-spacing:1.5px;color:var(--mut);margin-bottom:12px}
@@ -32,7 +32,7 @@ input[type=text],input[type=number],textarea{width:100%;background:#0f0c20;borde
 .seg button.on{background:var(--line);color:var(--txt)}
 .stepper{display:flex;align-items:center;gap:14px}
 .stepper button{width:44px;height:44px;border-radius:12px;border:1px solid var(--line);background:#0f0c20;color:var(--txt);font-size:22px;cursor:pointer}
-.stepper b{font-family:'Archivo Black';font-size:26px;min-width:36px;text-align:center}
+.stepper b{font-family:'Archivo Black',Impact,'Arial Black',system-ui,sans-serif;font-size:26px;min-width:36px;text-align:center}
 .set{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:14px}
 .set:last-child{margin-bottom:0}
 .set .l{font-weight:600}.set .l small{display:block;color:var(--mut);font-weight:400;font-size:12px;margin-top:2px}
@@ -49,14 +49,14 @@ input[type=text],input[type=number],textarea{width:100%;background:#0f0c20;borde
 .mini a,.mini label{font-size:12px;color:var(--cyan);border:1px solid var(--line);border-radius:8px;padding:5px 9px;text-decoration:none;cursor:pointer}
 .mini input{display:none}
 .top{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
-.who{font-family:'Archivo Black';font-size:24px}
+.who{font-family:'Archivo Black',Impact,'Arial Black',system-ui,sans-serif;font-size:24px}
 .stat{font-size:13px;color:var(--mut)}
 .chips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
 .chip{background:var(--panel);border:1px solid var(--line);border-radius:99px;padding:6px 11px;font-size:13px;display:flex;align-items:center;gap:6px}
 .chip.cur{border-color:var(--pink);color:#fff}
 .dot{width:10px;height:10px;border-radius:50%;flex:none}
 .mystery{border-radius:22px;padding:22px 18px;text-align:center;margin-bottom:16px;background:linear-gradient(135deg,#ff2e88,#7b2ff7 55%,#22e4ff);box-shadow:0 10px 40px #ff2e8844}
-.mystery .q{font-family:'Archivo Black';font-size:64px;line-height:1;color:#fff;text-shadow:0 4px 0 #0003}
+.mystery .q{font-family:'Archivo Black',Impact,'Arial Black',system-ui,sans-serif;font-size:64px;line-height:1;color:#fff;text-shadow:0 4px 0 #0003}
 .mystery .play{display:inline-block;margin-top:14px;background:#0d0b1a;color:#fff;text-decoration:none;padding:13px 20px;border-radius:99px;font-weight:800}
 .mystery .hint{font-size:12px;color:#ffffffcc;margin-top:10px}
 .banner{border-radius:16px;padding:14px;margin-bottom:14px;background:#22e4ff14;border:1px solid var(--cyan)}
@@ -65,13 +65,13 @@ input[type=text],input[type=number],textarea{width:100%;background:#0f0c20;borde
 .reveal{border-radius:22px;padding:20px;text-align:center;margin-bottom:16px;border:3px solid}
 .reveal.ok{background:#3ddc8418;border-color:var(--green)}
 .reveal.ko{background:#ff4d4d18;border-color:var(--red)}
-.reveal .yr{font-family:'Archivo Black';font-size:60px;line-height:1}
+.reveal .yr{font-family:'Archivo Black',Impact,'Arial Black',system-ui,sans-serif;font-size:60px;line-height:1}
 .reveal .t{font-weight:800;font-size:20px;margin-top:6px}
 .reveal .a{color:var(--mut);margin-top:2px}
 .reveal .res{font-weight:800;margin-bottom:8px;font-size:17px}
 .tl{display:flex;flex-direction:column;gap:6px}
 .card{display:flex;align-items:center;gap:12px;border-radius:14px;padding:10px 12px;background:var(--panel);border:1px solid var(--line)}
-.card .y{font-family:'Archivo Black';font-size:22px;min-width:64px;text-align:center;border-radius:10px;padding:6px 0;color:#0d0b1a}
+.card .y{font-family:'Archivo Black',Impact,'Arial Black',system-ui,sans-serif;font-size:22px;min-width:64px;text-align:center;border-radius:10px;padding:6px 0;color:#0d0b1a}
 .card .i{min-width:0;flex:1}
 .card .i b{display:block;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .card .i span{font-size:12px;color:var(--mut)}
@@ -88,6 +88,37 @@ input[type=text],input[type=number],textarea{width:100%;background:#0f0c20;borde
 .modal{position:fixed;inset:0;background:#000a;display:flex;align-items:center;justify-content:center;padding:20px;z-index:9}
 .modal .panel{max-width:420px;width:100%;max-height:90vh;overflow:auto}
 .hidden{display:none!important}
+/* ---------- MODO TELE ---------- */
+.rotate{display:none}
+body.tv .wrap{max-width:none;padding:12px 18px 24px}
+body.tv .board{display:grid;grid-template-columns:minmax(230px,30%) 1fr;gap:18px;align-items:start}
+body.tv .board>.side .actions{margin:10px 0}
+body.tv .board>.panel{margin-top:0!important}
+body.tv .top{margin-bottom:8px}
+body.tv .who{font-size:30px}
+body.tv .chips{margin-bottom:10px}
+body.tv .chip{font-size:15px;padding:7px 13px}
+body.tv .mystery{padding:18px 14px;margin-bottom:10px}
+body.tv .mystery .q{font-size:72px}
+body.tv .reveal{padding:14px;margin-bottom:10px}
+body.tv .reveal .yr{font-size:68px}
+body.tv .reveal .t{font-size:22px}
+body.tv .banner{margin-bottom:10px}
+body.tv .tl{flex-direction:row;flex-wrap:wrap;gap:8px;align-items:stretch}
+body.tv .card{flex-direction:column;justify-content:flex-start;width:118px;padding:10px 8px;gap:8px;text-align:center}
+body.tv .card .y{min-width:0;width:100%;font-size:26px}
+body.tv .card .i b{white-space:normal;font-size:13px;line-height:1.25;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+body.tv .card .i span{display:block;margin-top:3px}
+body.tv .card .own{align-self:center}
+body.tv .gap{width:42px;padding:6px 2px;font-size:20px;line-height:1.1;display:flex;align-items:center;justify-content:center;flex-direction:column}
+body.tv .gap small{font-size:10px;font-weight:700;margin-top:4px;overflow:hidden;max-width:100%}
+@media (max-height:500px){body.tv .wrap{padding:8px 14px 16px}body.tv .who{font-size:22px}body.tv .stat{font-size:11px}body.tv .top .btn.sm{padding:6px 10px;font-size:13px;margin-top:3px!important}
+body.tv .chip{font-size:12px;padding:4px 9px}body.tv .chips{margin-bottom:8px;gap:4px}body.tv .mystery .q{font-size:46px}body.tv .mystery .play{padding:10px 16px;margin-top:8px}
+body.tv .reveal .yr{font-size:46px}body.tv .reveal .t{font-size:17px}body.tv .reveal .res{font-size:14px}body.tv .btn.big{padding:12px;font-size:16px}
+body.tv .panel{padding:10px}body.tv .panel h2{margin-bottom:8px;font-size:11px}body.tv .card{width:96px;padding:7px 6px;gap:5px}body.tv .card .y{font-size:19px;padding:4px 0}
+body.tv .card .i b{font-size:11px;-webkit-line-clamp:2}body.tv .card .i span{font-size:10px}body.tv .card .own{font-size:9px}body.tv .gap{width:34px;font-size:16px}body.tv .banner{padding:10px;font-size:13px}}
+@media (orientation:portrait){body.tv .rotate{display:block;text-align:center;font-size:13px;color:var(--yellow);background:#ffd23f14;border:1px solid var(--yellow);border-radius:12px;padding:8px;margin-bottom:10px}}
+
 .steps{margin:0 0 10px 18px}.steps li{margin-bottom:12px;font-size:14px;line-height:1.45;color:#d9d4f5}.steps a{color:var(--cyan)}
 .rules li{margin:0 0 8px 18px;font-size:14px;line-height:1.45;color:#d9d4f5}
 </style>
@@ -178,6 +209,7 @@ function renderSetup(){
     <p class="note" id="spmsg" style="margin-top:8px"></p>
   </div>
   <div class="panel"><h2>Reglas</h2>
+    <div class="set"><div class="l">Modo tele<small>Pantalla en horizontal y en grande, para duplicar el móvil en la tele</small></div><div class="seg" style="min-width:130px"><button class="${S.tv?'':'on'}" onclick="S.tv=false;save();render()">No</button><button class="${S.tv?'on':''}" onclick="S.tv=true;save();render()">Sí</button></div></div>
     <div class="set"><div class="l">Línea del tiempo</div></div>
     <div class="seg" style="margin:-6px 0 16px"><button class="${S.mode==='shared'?'on':''}" onclick="S.mode='shared';save();render()">Compartida</button><button class="${S.mode==='own'?'on':''}" onclick="S.mode='own';save();render()">Una por jugador</button></div>
     <div class="set"><div class="l">Comodines por jugador<small>Para robar la canción si otro falla, o saltar una</small></div><div class="stepper"><button onclick="S.tokens=Math.max(0,S.tokens-1);save();render()">−</button><b>${S.tokens}</b><button onclick="S.tokens=Math.min(9,S.tokens+1);save();render()">+</button></div></div>
@@ -251,6 +283,7 @@ function renderGame(){
       if(G.phase==='guess')on=`S.game.sel=${i};save();render()`;
       else if(G.phase==='steal'&&G.stealing!=null&&G.sel!==i&&!st)on=`addSteal(${i})`;
       else dis=true;
+      if(S.tv)lab=G.sel===i?'🎯':st?'🃏<small>'+esc(G.players[st.p].name.slice(0,4))+'</small>':'+';
       list+=`<button class="gap ${cls}" ${dis?'disabled':''} onclick="${on}">${lab}</button>`;
       if(i<tl.length)list+=cardHTML(tl[i],G);
     }
@@ -283,10 +316,11 @@ function renderGame(){
   const tlTitle=G.mode==='shared'?'Línea del tiempo compartida':'Línea del tiempo de '+esc(P.name);
   $('#app').innerHTML=`
   <div class="top"><div><div class="stat">Turno de</div><div class="who" style="color:${P.c}">${esc(P.name)}</div></div>
-    <div style="text-align:right"><div class="stat">🎴 ${score(G,P)}/${S.target} · 🃏 ${P.tokens}</div><button class="btn ghost sm" style="margin-top:6px" onclick="S.screen='setup';save();render()">Menú</button></div></div>
+    <div style="text-align:right"><div class="stat">🎴 ${score(G,P)}/${S.target} · 🃏 ${P.tokens}</div><button class="btn ghost sm" style="margin-top:6px" onclick="S.tv=!S.tv;save();render()">📺${S.tv?' Salir':''}</button> <button class="btn ghost sm" style="margin-top:6px" onclick="S.screen='setup';save();render()">Menú</button></div></div>
+  <div class="rotate">📺 Gira el móvil en horizontal para el modo tele</div>
   <div class="chips">${G.players.map((p,i)=>`<span class="chip ${i==G.turn?'cur':''}"><span class="dot" style="background:${p.c}"></span>${esc(p.name)} · ${score(G,p)} · 🃏${p.tokens}</span>`).join('')}</div>
-  ${mid}
-  <div class="panel" style="margin-top:16px"><h2>${tlTitle}</h2><div class="tl">${list}</div></div>`;
+  <div class="board"><div class="side">${mid}</div>
+  <div class="panel" style="margin-top:16px"><h2>${tlTitle}</h2><div class="tl">${list}</div></div></div>`;
 }
 function cardHTML(x,G,isNew){
   const own=G.mode==='shared'&&x.o>=0?`<span class="own" style="background:${G.players[x.o].c}">${esc(G.players[x.o].name.slice(0,10))}</span>`:'';
@@ -337,7 +371,7 @@ function showRules(){
 const SPK='hitster_sp';
 let SP={};try{SP=JSON.parse(localStorage.getItem(SPK))||{}}catch(e){}
 function spSave(){try{localStorage.setItem(SPK,JSON.stringify(SP))}catch(e){}}
-const REDIR=location.origin+location.pathname;
+const REDIR=location.origin+location.pathname.replace(/index\.html$/,'').replace(/\/?$/,'/');
 const SCOPES='user-modify-playback-state user-read-playback-state playlist-read-private playlist-read-collaborative';
 const msg=(t,id='spmsg')=>{const e=document.getElementById(id);if(e)e.textContent=t};
 const b64url=buf=>btoa(String.fromCharCode(...new Uint8Array(buf))).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
@@ -409,7 +443,7 @@ async function spImport(k,url){
   }catch(e){msg(e.message,'imsg')}
 }
 
-function render(){({setup:renderSetup,game:renderGame,win:renderWin})[S.screen]()}
+function render(){if(document.body)document.body.classList.toggle('tv',!!S.tv);({setup:renderSetup,game:renderGame,win:renderWin})[S.screen]()}
 if(S.screen!=='setup'&&!S.game)S.screen='setup';
 render();spCallback();
 </script>
