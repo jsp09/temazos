@@ -360,7 +360,7 @@ const fits=(tl,i,y)=>(i==0||tl[i-1].y<=y)&&(i==tl.length||y<=tl[i].y);
 const DIFF={normal:'Fácil',medium:'Medio',pro:'Pro',expert:'Experto',rand:'Al azar'};
 const REQ={normal:[],medium:['title'],pro:['named'],expert:['named','exact']};
 const REQTXT={title:'Dijo artista o título',named:'Dijo artista y título',exact:'Dijo el año exacto'};
-const reqMet=(lvl,chk)=>REQ[lvl].every(k=>chk&&chk[k]);
+const reqMet=(lvl,chk,bonus)=>REQ[lvl].every(k=>(chk&&chk[k])||(bonus&&k==='title'));
 const DIFFTXT={normal:'Nivel Fácil: coloca la canción en la línea',medium:'Nivel Medio: colócala y di artista o título',pro:'Nivel Pro: colócala y di artista y título',expert:'Nivel Experto: colócala y di artista, título y año exacto'};
 function insertSorted(tl,c){let i=0;while(i<tl.length&&tl[i].y<=c.y)i++;tl.splice(i,0,c)}
 let UNDO=[];
@@ -471,7 +471,7 @@ function renderGame(){
     ${G.stealing!=null?'':`<button class="btn big pink" onclick="reveal()">Revelar año</button>`}`;
   } else {
     const r=G.res,ok=r.okActive,need=!r.bought&&ok&&G.diff!=='normal';
-    const lost=need&&!reqMet(G.diff,G.chk);
+    const lost=need&&!reqMet(G.diff,G.chk,G.bonus);
     const sw=stealWinner(G),cands=r.cands||[];
     const txt=r.bought?`${esc(P.name)} compra la carta`:ok?(lost?`Bien colocada. Falta confirmar el nivel ${LVLNAME[G.diff].slice(6)}`:`¡Correcto! Se la queda ${esc(P.name)}`)
       :sw!=null?`${esc(P.name)} falla. ¡${esc(G.players[sw].name)} la roba con su comodín!`
@@ -486,8 +486,8 @@ function renderGame(){
     let checks='';
     if(!ok&&!r.bought)cands.filter(p=>levelOf(G,p)!=='normal').forEach(p=>{checks+=tog(!!G.stealNamed[p],`${esc(G.players[p].name)} ${stealReqTxt(levelOf(G,p))}`,`S.game.stealNamed[${p}]=!S.game.stealNamed[${p}]`)});
     if(ok&&!r.bought){
-      checks+=REQ[G.diff].map(k=>tog(!!(G.chk||{})[k],REQTXT[k],`S.game.chk['${k}']=!S.game.chk['${k}']`)).join('');
-      if(G.diff==='normal'||G.diff==='medium')checks+=tog(!!G.bonus,`${G.diff==='normal'?'Además dijo título y artista':'Dijo los dos'} (+1 comodín)`,'S.game.bonus=!S.game.bonus');
+      checks+=REQ[G.diff].map(k=>tog(!!(G.chk||{})[k]||(k==='title'&&G.bonus),REQTXT[k],k==='title'?`S.game.chk.title=!(S.game.chk.title||S.game.bonus);if(!S.game.chk.title)S.game.bonus=false`:`S.game.chk['${k}']=!S.game.chk['${k}']`)).join('');
+      if(G.diff==='normal'||G.diff==='medium')checks+=tog(!!G.bonus,`${G.diff==='normal'?'Además dijo título y artista':'Dijo los dos'} (+1 comodín)`,'S.game.bonus=!S.game.bonus;if(S.game.bonus&&S.game.diff===\'medium\')S.game.chk.title=true');
     }
     const st=(ok&&!lost)||(!ok&&sw!=null)?'ok':(ok&&lost)||(!ok&&cands.length)?'pend':'ko';
     const col={ok:'var(--green)',pend:'var(--amber)',ko:'var(--red)'}[st];
@@ -561,7 +561,7 @@ function drawCard(){const G=G_();
 function nextTurn(){
   snap();const G=G_(),P=G.players[G.turn],r=G.res,c=r.card;
   if(r.okActive&&!r.bought){
-    if(reqMet(G.diff,G.chk)){P.st.hits++;addDec(P,c);if(G.bonus&&(G.diff==='normal'||G.diff==='medium'))P.tokens++}
+    if(reqMet(G.diff,G.chk,G.bonus)){P.st.hits++;addDec(P,c);if(G.bonus&&(G.diff==='normal'||G.diff==='medium'))P.tokens++}
     else{const tl=tlOf(G),k=tl.findIndex(x=>ck(x)===ck(c));if(k>=0)tl.splice(k,1);if(G.mode==='shared')P.won--}
   } else if(r.bought)addDec(P,c);
   else{const w=stealWinner(G);
