@@ -262,6 +262,7 @@ function spPanel(){return `
       <div id="devlist"></div>
       <div class="set"><div class="l">Dónde empieza la canción<small>Spotify no dice dónde está el estribillo; hacia el segundo 40 suele quedar poco antes en la mayoría de canciones</small></div></div>
       <div class="seg" style="margin:-6px 0 16px">${[[0,'Principio'],[25,'25 s'],[40,'40 s'],['rand','Al azar']].map(([v,l])=>`<button class="${S.startAt===v?'on':''}" onclick="S.startAt=${JSON.stringify(v).replace(/"/g,"'")};save();refreshSp()">${l}</button>`).join('')}</div>
+      <div class="set"><div class="l">Mantener Spotify despierto<small>Para iPhone: al pausar suena silencio en vez de parar</small></div><div class="seg" style="min-width:130px"><button class="${S.keepAwake!==false?'on':''}" onclick="S.keepAwake=true;save();refreshSp()">Sí</button><button class="${S.keepAwake===false?'on':''}" onclick="S.keepAwake=false;save();refreshSp()">No</button></div></div>
       <div class="set"><div class="l">Parar la música al revelar el año</div><div class="seg" style="min-width:130px"><button class="${S.autoPause!==false?'on':''}" onclick="S.autoPause=true;save();refreshSp()">Sí</button><button class="${S.autoPause===false?'on':''}" onclick="S.autoPause=false;save();refreshSp()">No</button></div></div>`
     :`<p class="note" style="margin-bottom:12px">Para que las canciones suenen sin enseñar el título. Hace falta Spotify Premium.</p>
       <button class="btn cyan" onclick="spLogin()">Conectar Spotify</button>
@@ -570,7 +571,7 @@ function nextTurn(){
       W.st.stealHits++;addDec(W,c);if(levelOf(G,w)!=='normal')W.tokens++}
     if(S.refund)(r.cands||[]).filter(p=>p!==w&&qualifies(G,p)).forEach(p=>G.players[p].tokens++);}
   const w=G.players.findIndex(p=>score(G,p)>=S.target);
-  if(w>=0){G.winner=w;S.screen='win';save();render();return}
+  if(w>=0){G.winner=w;if(typeof hardPause==='function'&&SP.tok)hardPause().catch(()=>{});S.screen='win';save();render();return}
   G.turn=(G.turn+1)%G.players.length;drawCard();beginTurn();save();render();
 }
 function renderWin(){
@@ -681,12 +682,35 @@ async function spPlay(){
 function spWakeUI(){SP.wake=true;WAKEPEND=true;render();msg('Spotify está dormido. Ábrelo, vuelve aquí y sonará solo.','sphint')}
 let WAKEPEND=false;
 document.addEventListener('visibilitychange',()=>{if(!document.hidden&&WAKEPEND&&S.game&&S.game.phase==='guess'){WAKEPEND=false;setTimeout(spPlay,800)}});
-async function spPause(){try{const r=await api('/me/player/pause'+(SP.dev?'?device_id='+SP.dev:''),{method:'PUT'});SP.paused=true;
-  if(!(r.ok||r.status===204)){const j=await r.json().catch(()=>({}));msg('No se pudo pausar: '+((j.error&&j.error.message)||r.status)+'. Si suena en el iPhone, abre Spotify un momento y vuelve.','sphint')}
+// iOS duerme Spotify a los pocos segundos de pausar. Para evitarlo, "pausar" pone una pista de silencio en bucle y "seguir" vuelve a la canción donde estaba
+async function silentId(){
+  if(SP.sil)return SP.sil;
+  try{const j=await (await api('/search?'+new URLSearchParams({q:'silence',type:'track',limit:30}))).json();
+    const it=((j.tracks&&j.tracks.items)||[]).find(x=>/^(\d+\s*(min(ute)?s?|seconds?)\s*(of\s*)?)?silen(ce|cio)\b/i.test(x.name)&&!/noise|rain|ruido|white|brown|pink/i.test(x.name)&&x.duration_ms>=60000);
+    if(it){SP.sil=it.id;spSave()}}catch(e){}
+  return SP.sil;
+}
+const awake=()=>S.keepAwake!==false;
+async function hardPause(){return api('/me/player/pause'+(SP.dev?'?device_id='+SP.dev:''),{method:'PUT'})}
+async function spPause(){try{
+  let r,ok=false;
+  if(awake()){const sid=await silentId();
+    if(sid){try{const st=await api('/me/player');const j=st.status===200?await st.json():null;
+        if(j&&j.item&&j.item.id!==sid){SP.pos=j.progress_ms||0;SP.posId=j.item.id}}catch(e){}
+      const dq=SP.dev?'?device_id='+SP.dev:'';
+      r=await api('/me/player/play'+dq,{method:'PUT',body:JSON.stringify({uris:['spotify:track:'+sid]})});
+      ok=r.ok||r.status===204;
+      if(ok)api('/me/player/repeat?state=track'+(SP.dev?'&device_id='+SP.dev:''),{method:'PUT'}).catch(()=>{})}}
+  if(!ok){r=await hardPause();ok=r.ok||r.status===204;SP.pos=null}
+  SP.paused=true;
+  if(!ok){const j=await r.json().catch(()=>({}));msg('No se pudo pausar: '+((j.error&&j.error.message)||r.status)+'. Si suena en el iPhone, abre Spotify un momento y vuelve.','sphint')}
   else msg('En pausa','sphint');if(S.screen==='game'&&S.game&&S.game.phase==='guess')render()}catch(e){msg(e.message,'sphint')}}
-async function spResume(){try{const r=await api('/me/player/play'+(SP.dev?'?device_id='+SP.dev:''),{method:'PUT'});SP.paused=false;
+async function spResume(){try{
+  const dq=SP.dev?'?device_id='+SP.dev:'';
+  const r=SP.pos!=null&&SP.posId?await api('/me/player/play'+dq,{method:'PUT',body:JSON.stringify({uris:['spotify:track:'+SP.posId],position_ms:SP.pos})}):await api('/me/player/play'+dq,{method:'PUT'});
+  SP.paused=false;
   if(!(r.ok||r.status===204)){const j=await r.json().catch(()=>({}));msg('No se pudo continuar: '+((j.error&&j.error.message)||r.status),'sphint')}
-  else msg('Sonando…','sphint');render()}catch(e){msg(e.message,'sphint')}}
+  else{SP.pos=null;msg('Sonando…','sphint')}render()}catch(e){msg(e.message,'sphint')}}
 function spToggle(){return SP.paused?spResume():spPause()}
 async function spDevices(){
   try{const d=await (await api('/me/player/devices')).json();const L=d.devices||[];
