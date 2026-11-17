@@ -242,7 +242,9 @@ function renderSetup(){
     <div class="seg" style="margin:-6px 0 16px"><button class="${S.mode==='shared'?'on':''}" onclick="S.mode='shared';save();render()">Compartida</button><button class="${S.mode==='own'?'on':''}" onclick="S.mode='own';save();render()">Una por jugador</button></div>
     <div class="set"><div class="l">Comodines por jugador<small>Para robar la canción si otro falla, o saltar una</small></div><div class="stepper"><button onclick="S.tokens=Math.max(0,S.tokens-1);save();render()">−</button><b>${S.tokens}</b><button onclick="S.tokens=Math.min(9,S.tokens+1);save();render()">+</button></div></div>
     <div class="set"><div class="l">Comodín que acierta por el otro lado<small>Cuando la canción es del mismo año que una carta y el comodín también estaba bien, pero la carta se la lleva otro</small></div><div class="seg" style="min-width:185px;flex:none"><button class="${S.refund?'on':''}" onclick="S.refund=true;save();render()">Se devuelve</button><button class="${S.refund?'':'on'}" onclick="S.refund=false;save();render()">Se pierde</button></div></div>
-    <div class="set"><div class="l">Temporizador<small>Cuenta atrás desde que suena la canción; pita al acabar</small></div></div>
+    <div class="set"><div class="l">Nivel de dificultad<small>Se aplica a todos. Para dar un nivel distinto a cada jugador, usa el desplegable junto a su nombre</small></div></div>
+    <div class="seg" style="margin:-6px 0 16px">${Object.entries(DIFF).map(([k,v])=>{const all=S.players.every((_,i)=>(S.diffs[i]||'normal')===k);return `<button class="${all?'on':''}" onclick="S.diffs=S.players.map(()=>'${k}');save();render()">${v}</button>`}).join('')}</div>
+    <div class="set"><div class="l">Temporizador<small>Cuenta atrás desde que suena la canción. Al acabar pita y, con Spotify conectado, se para la música</small></div></div>
     <div class="seg" style="margin:-6px 0 16px">${[[0,'No'],[30,'30 s'],[45,'45 s'],[60,'60 s']].map(([v,l])=>`<button class="${S.timer===v?'on':''}" onclick="S.timer=${v};save();render()">${l}</button>`).join('')}</div>
     <div class="set"><div class="l">Cartas para ganar</div><div class="stepper"><button onclick="S.target=Math.max(3,S.target-1);save();render()">−</button><b>${S.target}</b><button onclick="S.target=Math.min(40,S.target+1);save();render()">+</button></div></div>
   </div>
@@ -300,7 +302,7 @@ const tlOf=G=>G.mode==='shared'?G.shared:G.players[G.turn].tl;
 const score=(G,p)=>G.mode==='shared'?p.won:p.tl.length;
 const fits=(tl,i,y)=>(i==0||tl[i-1].y<=y)&&(i==tl.length||y<=tl[i].y);
 const DIFF={normal:'Normal',pro:'Pro',expert:'Experto',rand:'Al azar'};
-const DIFFTXT={normal:'Coloca la canción en la línea',pro:'Nivel Pro: coloca la canción y di artista y título',expert:'Nivel Experto: coloca la canción y di artista, título y año exacto'};
+const DIFFTXT={normal:'Nivel Normal: coloca la canción en la línea',pro:'Nivel Pro: coloca la canción y di artista y título',expert:'Nivel Experto: coloca la canción y di artista, título y año exacto'};
 function insertSorted(tl,c){let i=0;while(i<tl.length&&tl[i].y<=c.y)i++;tl.splice(i,0,c)}
 let UNDO=[];
 function snap(){UNDO.push(JSON.stringify(S.game));if(UNDO.length>30)UNDO.shift()}
@@ -334,7 +336,7 @@ function startTimer(){if(!S.timer||TIMER)return;unlockAudio();TEND=Date.now()+S.
 function stopTimer(){if(TIMER){clearInterval(TIMER);TIMER=null}}
 function tick(){const e=document.getElementById('timer');const left=Math.max(0,Math.ceil((TEND-Date.now())/1000));
   if(e){e.textContent=left?`⏱ ${left}`:'⏱ ¡Tiempo!';e.className='timer'+(left<=5?' hot':'')}
-  if(!left){if(!BEEPED){BEEPED=true;beep()}stopTimer()}}
+  if(!left){if(!BEEPED){BEEPED=true;beep();if(typeof spPause==='function'&&SP.tok)spPause()}stopTimer()}}
 function onPlayLink(){unlockAudio();startTimer()}
 /* --- render --- */
 function renderGame(){
