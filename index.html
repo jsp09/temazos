@@ -130,12 +130,12 @@ body.tv .card .i b{font-size:11px;-webkit-line-clamp:2}body.tv .card .i span{fon
 
 .steps{margin:0 0 10px 18px}.steps li{margin-bottom:12px;font-size:14px;line-height:1.45;color:#d9d4f5}.steps a{color:var(--cyan)}
 .lvl{display:inline-block;margin-top:10px;font-size:12px;font-weight:800;padding:5px 10px;border-radius:99px;background:#0d0b1a99;color:#fff}
-.lvl-pro{background:#ffd23f;color:#0d0b1a}.lvl-expert{background:#ff4d4d;color:#fff}
+.lvl-medium{background:#22e4ff;color:#0d0b1a}.lvl-pro{background:#ffd23f;color:#0d0b1a}.lvl-expert{background:#ff4d4d;color:#fff}
 .timer{margin-top:10px;font-family:'Archivo Black',Impact,sans-serif;font-size:26px;color:#fff}.timer.hot{color:var(--yellow)}
 .link{background:none;border:none;color:var(--mut);font:inherit;font-size:13px;margin-top:10px;cursor:pointer;text-decoration:underline}
 .sel{background:#0f0c20;border:1px solid var(--line);color:var(--txt);border-radius:12px;padding:12px 6px;font:inherit;font-size:14px;flex:none;max-width:100px}
 .decs{display:flex;flex-wrap:wrap;gap:6px}.dec{border:1px solid var(--line);background:#0f0c20;color:var(--txt);border-radius:12px;padding:8px 10px;font:inherit;font-weight:800;cursor:pointer;display:flex;flex-direction:column;align-items:center;min-width:58px}
-.dec small{font-weight:400;color:var(--mut);font-size:11px}.dec.on{border-color:var(--pink);background:#ff2e8820}
+.dec:disabled{opacity:.35}.dec small{font-weight:400;color:var(--mut);font-size:11px}.dec.on{border-color:var(--pink);background:#ff2e8820}
 table.stats{width:100%;border-collapse:collapse;font-size:13px}table.stats th{color:var(--mut);font-weight:600;font-size:11px;text-align:left;padding:4px}table.stats td{padding:8px 4px;border-top:1px solid var(--line)}
 .rules li{margin:0 0 8px 18px;font-size:14px;line-height:1.45;color:#d9d4f5}
 </style>
@@ -204,26 +204,16 @@ function deckRow(k,n,d,count,custom){
   const on=S.sel.includes(k);
   return `<div class="deck ${on?'on':''} ${count?'':'dis'}" onclick="toggleDeck('${k}',${count})"><div class="ck">${on?'✓':''}</div><div class="nm"><b>${esc(n)}</b><span>${esc(d)}</span></div><div class="ct">${count||(custom?'sin importar':'')}</div></div>`;
 }
-function renderSetup(){
-  const n=pool().length;
-  $('#app').innerHTML=`
-  <h1>TEMAZO</h1><div class="sub">¿De qué año es? Escucha y ordena la línea del tiempo</div>
-  ${S.game&&S.game.winner==null?`<button class="btn cyan big" style="margin-bottom:14px" onclick="S.screen='game';save();render()">Continuar partida</button>`:''}
-  <div class="panel"><h2>Jugadores o equipos</h2>
-    <p class="note" style="margin-bottom:10px">Para jugar por equipos, pon un nombre por equipo. El nivel puede ser distinto para cada uno (por ejemplo, Pro para los mayores). "Al azar" reparte los turnos así: la mitad Normal, un tercio Pro y el resto Experto, igual para todos.</p>
-    ${S.players.map((p,i)=>`<div class="row"><span class="dot" style="background:${COLORS[i%8]}"></span><input type="text" value="${esc(p)}" oninput="S.players[${i}]=this.value;save()"><select class="sel" onchange="S.diffs[${i}]=this.value;save()">${Object.entries(DIFF).map(([k,v])=>`<option value="${k}" ${(S.diffs[i]||'normal')===k?'selected':''}>${v}</option>`).join('')}</select><button class="x" onclick="rmP(${i})">×</button></div>`).join('')}
-    <button class="btn ghost sm" onclick="S.players.push('Jugador '+(S.players.length+1));save();render()">+ Añadir jugador</button>
-  </div>
-  ${PREMIUM?`<div class="panel"><h2>Spotify Premium</h2>
+function spPanel(){return `
     ${SP.tok?`<div class="set"><div class="l">✅ Conectado<small>Las canciones sonarán en tu Spotify sin salir del juego</small></div><button class="btn ghost sm" onclick="spLogout()">Desconectar</button></div>
       <div class="set"><div class="l">Dispositivo<small id="devmsg">${esc(SP.devName||'El que esté activo en Spotify')}</small></div><button class="btn ghost sm" onclick="spDevices()">Elegir</button></div>
       <div id="devlist"></div>
       <div class="set"><div class="l">Dónde empieza la canción<small>Spotify no dice dónde está el estribillo; hacia el segundo 40 suele quedar poco antes en la mayoría de canciones</small></div></div>
-      <div class="seg" style="margin:-6px 0 16px">${[[0,'Principio'],[25,'25 s'],[40,'40 s'],['rand','Al azar']].map(([v,l])=>`<button class="${S.startAt===v?'on':''}" onclick="S.startAt=${JSON.stringify(v).replace(/"/g,"'")};save();render()">${l}</button>`).join('')}</div>
-      <div class="set"><div class="l">Parar la música al revelar el año</div><div class="seg" style="min-width:130px"><button class="${S.autoPause!==false?'on':''}" onclick="S.autoPause=true;save();render()">Sí</button><button class="${S.autoPause===false?'on':''}" onclick="S.autoPause=false;save();render()">No</button></div></div>`
+      <div class="seg" style="margin:-6px 0 16px">${[[0,'Principio'],[25,'25 s'],[40,'40 s'],['rand','Al azar']].map(([v,l])=>`<button class="${S.startAt===v?'on':''}" onclick="S.startAt=${JSON.stringify(v).replace(/"/g,"'")};save();refreshSp()">${l}</button>`).join('')}</div>
+      <div class="set"><div class="l">Parar la música al revelar el año</div><div class="seg" style="min-width:130px"><button class="${S.autoPause!==false?'on':''}" onclick="S.autoPause=true;save();refreshSp()">Sí</button><button class="${S.autoPause===false?'on':''}" onclick="S.autoPause=false;save();refreshSp()">No</button></div></div>`
     :`<p class="note" style="margin-bottom:12px">Para que las canciones suenen sin enseñar el título. Hace falta Spotify Premium.</p>
       <button class="btn cyan" onclick="spLogin()">Conectar Spotify</button>
-      <p class="note" style="margin-top:10px">${SP.cid===DEFAULT_CID?'Usa la app de Spotify de Jaime: si no eres Jaime, pídele que añada tu cuenta en su User Management, o crea tu propia app abajo.':'Usando tu propia app de Spotify. <a href="#" onclick="event.preventDefault();SP.cid=DEFAULT_CID;spSave();render()">Volver a la de Jaime</a>'}</p>
+      <p class="note" style="margin-top:10px">${SP.cid===DEFAULT_CID?'Usa la app de Spotify de Jaime: si no eres Jaime, pídele que añada tu cuenta en su User Management, o crea tu propia app abajo.':'Usando tu propia app de Spotify. <a href="#" onclick="event.preventDefault();SP.cid=DEFAULT_CID;spSave();refreshSp()">Volver a la de Jaime</a>'}</p>
       <details style="margin-top:12px"><summary class="note" style="cursor:pointer">Usar mi propia app de Spotify</summary>
       <ol class="steps" style="margin-top:10px">
         <li>Entra en <a href="https://developer.spotify.com/dashboard" target="_blank" rel="noopener">developer.spotify.com/dashboard</a> con tu cuenta de Spotify y pulsa <b>Create app</b>.</li>
@@ -236,7 +226,19 @@ function renderSetup(){
       </ol>
       <p class="note">Si conectas con una cuenta distinta a la que creó la app, añádela antes en <b>User Management</b> (máximo 5).</p></details>`}
     <p class="note" id="spmsg" style="margin-top:8px"></p>
-  </div>`:''}
+  `}
+function refreshSp(){const m=document.getElementById('modal');if(m&&!m.classList.contains('hidden')&&S.screen==='game')gameMenu();else render()}
+function renderSetup(){
+  const n=pool().length;
+  $('#app').innerHTML=`
+  <h1>TEMAZO</h1><div class="sub">¿De qué año es? Escucha y ordena la línea del tiempo</div>
+  ${S.game&&S.game.winner==null?`<button class="btn cyan big" style="margin-bottom:14px" onclick="S.screen='game';save();render()">Continuar partida</button>`:''}
+  <div class="panel"><h2>Jugadores o equipos</h2>
+    <p class="note" style="margin-bottom:10px">Para jugar por equipos, pon un nombre por equipo. El nivel puede ser distinto para cada uno (por ejemplo, Pro para los mayores). "Al azar" reparte los turnos así: 4 de cada 10 Fácil, 3 Medio, 2 Pro y 1 Experto, igual para todos.</p>
+    ${S.players.map((p,i)=>`<div class="row"><span class="dot" style="background:${COLORS[i%8]}"></span><input type="text" value="${esc(p)}" oninput="S.players[${i}]=this.value;save()"><select class="sel" onchange="S.diffs[${i}]=this.value;save()">${Object.entries(DIFF).map(([k,v])=>`<option value="${k}" ${(S.diffs[i]||'normal')===k?'selected':''}>${v}</option>`).join('')}</select><button class="x" onclick="rmP(${i})">×</button></div>`).join('')}
+    <button class="btn ghost sm" onclick="S.players.push('Jugador '+(S.players.length+1));save();render()">+ Añadir jugador</button>
+  </div>
+  ${PREMIUM?`<div class="panel"><h2>Spotify Premium</h2>${spPanel()}</div>`:''}
   <div class="panel"><h2>Reglas</h2>
     <div class="set"><div class="l">Modo tele<small>Pantalla en horizontal y en grande, para duplicar el móvil en la tele</small></div><div class="seg" style="min-width:130px"><button class="${S.tv?'':'on'}" onclick="S.tv=false;save();render()">No</button><button class="${S.tv?'on':''}" onclick="S.tv=true;save();render()">Sí</button></div></div>
     <div class="set"><div class="l">Línea del tiempo</div></div>
@@ -245,6 +247,7 @@ function renderSetup(){
     <div class="set"><div class="l">Comodín que acierta por el otro lado<small>Cuando la canción es del mismo año que una carta y el comodín también estaba bien, pero la carta se la lleva otro</small></div><div class="seg" style="min-width:185px;flex:none"><button class="${S.refund?'on':''}" onclick="S.refund=true;save();render()">Se devuelve</button><button class="${S.refund?'':'on'}" onclick="S.refund=false;save();render()">Se pierde</button></div></div>
     <div class="set"><div class="l">Nivel de dificultad<small>Se aplica a todos. Para dar un nivel distinto a cada jugador, usa el desplegable junto a su nombre</small></div></div>
     <div class="seg" style="margin:-6px 0 16px">${Object.entries(DIFF).map(([k,v])=>{const all=S.players.every((_,i)=>(S.diffs[i]||'normal')===k);return `<button class="${all?'on':''}" onclick="S.diffs=S.players.map(()=>'${k}');save();render()">${v}</button>`}).join('')}</div>
+    <div class="set"><div class="l">En Experto, el jugador elige la década<small>Antes de sonar la canción, el que juega en Experto elige de qué década quiere que sea</small></div><div class="seg" style="min-width:130px"><button class="${S.expertDecade!==false?'on':''}" onclick="S.expertDecade=true;save();render()">Sí</button><button class="${S.expertDecade===false?'on':''}" onclick="S.expertDecade=false;save();render()">No</button></div></div>
     <div class="set"><div class="l">Temporizador<small>Cuenta atrás desde que suena la canción. Al acabar pita y, con Spotify conectado, se para la música</small></div></div>
     <div class="seg" style="margin:-6px 0 16px">${[[0,'No'],[30,'30 s'],[45,'45 s'],[60,'60 s']].map(([v,l])=>`<button class="${S.timer===v?'on':''}" onclick="S.timer=${v};save();render()">${l}</button>`).join('')}</div>
     <div class="set"><div class="l">Cartas para ganar</div><div class="stepper"><button onclick="S.target=Math.max(3,S.target-1);save();render()">−</button><b>${S.target}</b><button onclick="S.target=Math.min(40,S.target+1);save();render()">+</button></div></div>
@@ -302,8 +305,11 @@ const ck=c=>c.id||(c.a+'|'+c.t).toLowerCase();
 const tlOf=G=>G.mode==='shared'?G.shared:G.players[G.turn].tl;
 const score=(G,p)=>G.mode==='shared'?p.won:p.tl.length;
 const fits=(tl,i,y)=>(i==0||tl[i-1].y<=y)&&(i==tl.length||y<=tl[i].y);
-const DIFF={normal:'Normal',pro:'Pro',expert:'Experto',rand:'Al azar'};
-const DIFFTXT={normal:'Nivel Normal: coloca la canción en la línea',pro:'Nivel Pro: coloca la canción y di artista y título',expert:'Nivel Experto: coloca la canción y di artista, título y año exacto'};
+const DIFF={normal:'Fácil',medium:'Medio',pro:'Pro',expert:'Experto',rand:'Al azar'};
+const REQ={normal:[],medium:['title'],pro:['named'],expert:['named','exact']};
+const REQTXT={title:'Dijo artista o título',named:'Dijo artista y título',exact:'Dijo el año exacto'};
+const reqMet=(lvl,chk)=>REQ[lvl].every(k=>chk&&chk[k]);
+const DIFFTXT={normal:'Nivel Fácil: coloca la canción en la línea',medium:'Nivel Medio: colócala y di artista o título',pro:'Nivel Pro: colócala y di artista y título',expert:'Nivel Experto: colócala y di artista, título y año exacto'};
 function insertSorted(tl,c){let i=0;while(i<tl.length&&tl[i].y<=c.y)i++;tl.splice(i,0,c)}
 let UNDO=[];
 function snap(){UNDO.push(JSON.stringify(S.game));if(UNDO.length>30)UNDO.shift()}
@@ -320,13 +326,15 @@ function startGame(){
 }
 function beginTurn(){
   const G=G_(),P=G.players[G.turn];
-  if(P.diff==='rand'){if(!P.bag||!P.bag.length)P.bag=shuffle(['normal','normal','normal','pro','pro','expert']);G.diff=P.bag.pop()}
+  if(P.diff==='rand'){if(!P.bag||!P.bag.length)P.bag=shuffle(['normal','normal','normal','normal','medium','medium','medium','pro','pro','expert']);G.diff=P.bag.pop()}
   else G.diff=P.diff||'normal';
-  P.lastDiff=G.diff;G.stealNamed={};
-  G.sel=null;G.steals=[];G.stealing=null;G.phase='guess';G.res=null;G.bonus=G.named=G.exact=false;G.editing=false;stopTimer();
+  P.lastDiff=G.diff;G.stealNamed={};if(typeof SP!=='undefined'){SP.started=false;SP.paused=false}
+  G.sel=null;G.steals=[];G.stealing=null;G.phase='guess';G.res=null;G.bonus=false;G.chk={};G.editing=false;stopTimer();
+  G.needDecade=G.diff==='expert'&&S.expertDecade!==false;
 }
 const levelOf=(G,p)=>{const d=G.players[p].diff||'normal';return d==='rand'?(G.players[p].lastDiff||'normal'):d};
 const qualifies=(G,p)=>levelOf(G,p)==='normal'||!!(G.stealNamed||{})[p];
+const stealReqTxt=l=>l==='medium'?'dijo artista o título':'dijo artista y título';
 function stealWinner(G){const r=G.res;if(!r||r.okActive||r.bought)return null;return (r.cands||[]).find(p=>qualifies(G,p))??null}
 function gapLabel(tl,i){return i==0?'Antes de '+tl[0].y:i==tl.length?'Después de '+tl[i-1].y:'Entre '+tl[i-1].y+' y '+tl[i].y}
 /* --- timer --- */
@@ -359,9 +367,13 @@ function renderGame(){
   } else list=tl.map(x=>cardHTML(x,G,ck(x)===ck(G.res.card))).join('');
   const badge=`<div class="lvl lvl-${G.diff}">${DIFFTXT[G.diff]}</div>`;
   let mid='';
-  if(G.phase==='guess') mid=`
+  if(G.phase==='guess'&&G.needDecade) mid=`
     <div class="mystery"><div class="q">?</div>${badge}
-      ${SP.tok?`<div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:12px"><button class="play" style="border:none;font:inherit;font-weight:800;cursor:pointer;margin:0" onclick="spPlay()">▶ Reproducir</button><button class="play" style="border:none;font:inherit;font-weight:800;cursor:pointer;margin:0" onclick="spPause()">⏸</button></div>
+      <div class="hint" style="font-size:14px;margin:12px 0 8px">Turno de Experto: ${esc(P.name)} elige la década de su canción</div>
+      <div class="decs" style="justify-content:center">${DECS.map(d=>{const n=pool().filter(x=>decOf(x.y)===d).length;return `<button class="dec" ${n?'':'disabled'} onclick="pickDecade(${d})">${d===1950?'≤50s':String(d).slice(2)+'s'}<small>${n}</small></button>`}).join('')}</div></div>`;
+  else if(G.phase==='guess') mid=`
+    <div class="mystery"><div class="q">?</div>${badge}
+      ${SP.tok?`<div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:12px"><button class="play" style="border:none;font:inherit;font-weight:800;cursor:pointer;margin:0" onclick="spPlay()">${SP.started?'↺ Desde el inicio':'▶ Reproducir'}</button>${SP.started?`<button class="play" style="border:none;font:inherit;font-weight:800;cursor:pointer;margin:0" onclick="spToggle()">${SP.paused?'▶ Seguir':'⏸ Pausa'}</button>`:''}</div>
       <div class="hint" id="sphint">Suena en tu Spotify sin enseñar el título${S.startAt?' · empieza en el segundo '+(S.startAt==='rand'?'30-60':S.startAt):''}</div>`
       :`<a class="play" href="${playUrl(c)}" target="_blank" rel="noopener" onclick="onPlayLink()">▶ Reproducir en Spotify</a>
       <div class="hint">Que la ponga otro jugador (el DJ) sin enseñar la pantalla y vuelva aquí</div>`}
@@ -376,7 +388,7 @@ function renderGame(){
       <button class="btn pink big" onclick="reveal()">Revelar año</button>`;
   } else {
     const r=G.res,ok=r.okActive,need=!r.bought&&ok&&G.diff!=='normal';
-    const lost=need&&(!G.named||(G.diff==='expert'&&!G.exact));
+    const lost=need&&!reqMet(G.diff,G.chk);
     const sw=stealWinner(G),cands=r.cands||[];
     const txt=r.bought?`${esc(P.name)} compra la carta 🛒`:ok?(need?(lost?`Bien colocada, pero ${esc(P.name)} aún no ha cumplido el nivel ${DIFF[G.diff]}`:`¡Correcto! Se la queda ${esc(P.name)} 🎉`):`¡Correcto! Se la queda ${esc(P.name)} 🎉`)
       :sw!=null?`${esc(P.name)} falla. ¡${esc(G.players[sw].name)} la roba con su comodín! 🃏`
@@ -388,11 +400,10 @@ function renderGame(){
     const edit=G.editing?`<div class="row" style="margin-top:10px;justify-content:center"><input type="number" id="fixy" value="${c.y}" style="max-width:120px;text-align:center"><button class="btn sm" onclick="fixYear(+document.getElementById('fixy').value)">Guardar</button><button class="btn ghost sm" onclick="S.game.editing=false;render()">✕</button></div>`
       :`<button class="link" onclick="S.game.editing=true;render()">✏️ Este año está mal</button>`;
     let checks='';
-    if(!ok&&!r.bought)cands.filter(p=>levelOf(G,p)!=='normal').forEach(p=>{const on=!!G.stealNamed[p];checks+=`<button class="btn ${on?'cyan':'ghost'} sm" onclick="S.game.stealNamed[${p}]=!S.game.stealNamed[${p}];save();render()">${on?'✓ ':''}${esc(G.players[p].name)} dijo artista y título</button>`});
+    if(!ok&&!r.bought)cands.filter(p=>levelOf(G,p)!=='normal').forEach(p=>{const on=!!G.stealNamed[p];checks+=`<button class="btn ${on?'cyan':'ghost'} sm" onclick="S.game.stealNamed[${p}]=!S.game.stealNamed[${p}];save();render()">${on?'✓ ':''}${esc(G.players[p].name)} ${stealReqTxt(levelOf(G,p))}</button>`});
     if(ok&&!r.bought){
-      if(G.diff==='normal')checks=`<button class="btn ${G.bonus?'cyan':'ghost'} sm" onclick="S.game.bonus=!S.game.bonus;save();render()">${G.bonus?'✓ ':''}Acertó también título y artista (+1 🃏)</button>`;
-      else{checks=`<button class="btn ${G.named?'cyan':'ghost'} sm" onclick="S.game.named=!S.game.named;save();render()">${G.named?'✓ ':''}Dijo artista y título</button>`;
-        if(G.diff==='expert')checks+=`<button class="btn ${G.exact?'cyan':'ghost'} sm" onclick="S.game.exact=!S.game.exact;save();render()">${G.exact?'✓ ':''}Dijo el año exacto</button>`;}
+      checks+=REQ[G.diff].map(k=>{const on=!!(G.chk||{})[k];return `<button class="btn ${on?'cyan':'ghost'} sm" onclick="S.game.chk['${k}']=!S.game.chk['${k}'];save();render()">${on?'✓ ':''}${REQTXT[k]}</button>`}).join('');
+      if(G.diff==='normal'||G.diff==='medium')checks+=`<button class="btn ${G.bonus?'cyan':'ghost'} sm" onclick="S.game.bonus=!S.game.bonus;save();render()">${G.bonus?'✓ ':''}${G.diff==='normal'?'Además dijo título y artista':'Dijo los dos'} (+1 🃏)</button>`;
     }
     const st=(ok&&!lost)||(!ok&&sw!=null)?'ok':(ok&&lost)||(!ok&&cands.length)?'pend':'ko';
     mid=`<div class="reveal ${st}"><div class="res">${txt}</div>
@@ -404,7 +415,7 @@ function renderGame(){
   const tlTitle=G.mode==='shared'?'Línea del tiempo compartida':'Línea del tiempo de '+esc(P.name);
   $('#app').innerHTML=`
   <div class="top"><div><div class="stat">Turno de${G.diff!=='normal'?' · '+DIFF[G.diff]:''}</div><div class="who" style="color:${P.c}">${esc(P.name)}</div></div>
-    <div style="text-align:right"><div class="stat">🎴 ${score(G,P)}/${S.target} · 🃏 ${P.tokens}</div><button class="btn ghost sm" style="margin-top:6px" ${UNDO.length?'':'disabled'} onclick="undo()">↶</button> <button class="btn ghost sm" style="margin-top:6px" onclick="S.tv=!S.tv;save();render()">📺${S.tv?' Salir':''}</button> <button class="btn ghost sm" style="margin-top:6px" onclick="S.screen='setup';save();render()">Menú</button></div></div>
+    <div style="text-align:right"><div class="stat">🎴 ${score(G,P)}/${S.target} · 🃏 ${P.tokens}</div><button class="btn ghost sm" style="margin-top:6px" ${UNDO.length?'':'disabled'} onclick="undo()">↶</button> <button class="btn ghost sm" style="margin-top:6px" onclick="S.tv=!S.tv;save();render()">📺${S.tv?' Salir':''}</button> <button class="btn ghost sm" style="margin-top:6px" onclick="gameMenu()">Menú</button></div></div>
   <div class="rotate">📺 Gira el móvil en horizontal para el modo tele</div>
   <div class="chips">${G.players.map((p,i)=>`<span class="chip ${i==G.turn?'cur':''}"><span class="dot" style="background:${p.c}"></span>${esc(p.name)} · ${score(G,p)} · 🃏${p.tokens}</span>`).join('')}</div>
   <div class="board"><div class="side">${mid}</div>
@@ -416,6 +427,10 @@ function cardHTML(x,G,isNew){
   return `<div class="card ${isNew?'new':''}"><div class="y" style="background:${yColor(x.y)}">${x.y}</div><div class="i"><b>${esc(x.t)}</b><span>${esc(x.a)}</span></div>${own}</div>`;
 }
 /* --- actions --- */
+function pickDecade(d){snap();const G=G_();const used=new Set([...G.shared,...G.players.flatMap(p=>p.tl)].map(ck));
+  let i=G.deck.findIndex(x=>decOf(x.y)===d);let c;
+  if(i>=0)c=G.deck.splice(i,1)[0];else{const opts=shuffle(pool().filter(x=>decOf(x.y)===d&&!used.has(ck(x))));c=opts[0]}
+  if(c){G.deck.push(G.card);G.card=c}G.needDecade=false;save();render()}
 function confirmPos(){snap();stopTimer();S.game.phase='steal';save();render()}
 function addSteal(i){snap();const G=G_();G.players[G.stealing].tokens--;G.steals.push({p:G.stealing,gap:i});G.stealing=null;save();render()}
 function reveal(){
@@ -426,7 +441,7 @@ function reveal(){
   let refunded=[];
   if(okActive){c.o=G.turn;tl.splice(G.sel,0,c);if(G.mode==='shared')P.won++;refunded=S.refund?okSteals:[];refunded.forEach(p=>G.players[p].tokens++)}
   G.res={okActive,where:okActive?G.turn:null,card:c,refunded,cands:okActive?[]:okSteals};G.stealNamed={};
-  G.phase='reveal';G.bonus=G.named=G.exact=false;
+  G.phase='reveal';G.bonus=false;G.chk={};
   if(typeof spPause==='function'&&SP.tok&&S.autoPause!==false)spPause();
   save();render();
 }
@@ -450,8 +465,7 @@ function drawCard(){const G=G_();
 function nextTurn(){
   snap();const G=G_(),P=G.players[G.turn],r=G.res,c=r.card;
   if(r.okActive&&!r.bought){
-    if(G.diff==='normal'){if(G.bonus)P.tokens++;P.st.hits++;addDec(P,c)}
-    else if(G.named&&(G.diff!=='expert'||G.exact)){P.st.hits++;addDec(P,c)}
+    if(reqMet(G.diff,G.chk)){P.st.hits++;addDec(P,c);if(G.bonus&&(G.diff==='normal'||G.diff==='medium'))P.tokens++}
     else{const tl=tlOf(G),k=tl.findIndex(x=>ck(x)===ck(c));if(k>=0)tl.splice(k,1);if(G.mode==='shared')P.won--}
   } else if(r.bought)addDec(P,c);
   else{const w=stealWinner(G);
@@ -474,13 +488,23 @@ function renderWin(){
   <button class="btn pink big" onclick="startGame()">Revancha</button>
   <button class="btn ghost big" style="margin-top:10px" onclick="S.game=null;S.screen='setup';save();render()">Menú</button>`;
 }
+function gameMenu(sure){
+  $('#modalBody').innerHTML=`<h2>Partida en curso</h2>
+  <button class="btn cyan big" onclick="closeModal()">Continuar</button>
+  <button class="btn ${sure==='restart'?'pink':'ghost'} big" style="margin-top:10px" onclick="${sure==='restart'?'closeModal();startGame()':"gameMenu('restart')"}">${sure==='restart'?'¿Seguro? Pulsa otra vez para reiniciar':'Reiniciar partida (mismos ajustes)'}</button>
+  <button class="btn ghost big" style="margin-top:10px" onclick="closeModal();S.screen='setup';save();render()">Nueva partida con otros ajustes</button>
+  ${PREMIUM?`<h2 style="margin-top:20px">Música (Spotify)</h2>${spPanel()}`:''}
+  <button class="btn ghost sm" style="margin-top:14px;width:100%" onclick="showRules()">Cómo se juega</button>`;
+  $('#modal').classList.remove('hidden');
+}
+function closeModal(){$('#modal').classList.add('hidden')}
 function showRules(){
   $('#modalBody').innerHTML=`<h2>Cómo se juega</h2><ul class="rules">
   <li>${S.mode==='shared'?'Hay una sola línea del tiempo para todos, que empieza con una canción.':'Cada jugador empieza con una canción revelada en su propia línea.'}</li>
   <li>En tu turno suena una canción sin que veas el título. Elige el hueco donde crees que va y confirma. Si el año coincide con el de una carta, vale a cualquiera de sus dos lados.</li>
   <li>Antes de revelar, los demás pueden gastar un comodín 🃏 para apostar por otro hueco. Si tú fallas y uno de ellos acierta, se lleva la carta.</li>
-  <li>Niveles: en Normal basta con colocarla (si además dices artista y título, ganas un comodín). En Pro también tienes que decir artista y título. En Experto, además, el año exacto.</li>
-  <li>En Pro y Experto, quien roba con comodín también tiene que decir artista y título; si lo consigue, recupera el comodín.</li>
+  <li>Niveles: Fácil, solo colocarla. Medio, colocarla y decir el artista o el título (si dices los dos, ganas un comodín). Pro, colocarla y decir artista y título. Experto, además el año exacto, con una canción de la década que elija el jugador.</li>
+  <li>En Medio, Pro y Experto, quien roba con comodín también tiene que cumplir su nivel (artista o título en Medio; artista y título en Pro y Experto); si lo consigue, recupera el comodín.</li>
   <li>Con 1 comodín saltas una canción; con 3 compras la carta y se coloca sola.</li>
   <li>Si un año está mal, corrígelo con ✏️ al revelar. ↶ deshace el último paso.</li>
   <li>Gana quien consiga primero ${S.target} cartas.</li></ul>
@@ -516,7 +540,7 @@ async function spCallback(){
   catch(e){render();msg('No se pudo conectar: '+e.message)}
 }
 function copyRedir(){const e=document.getElementById('redir');e.select();try{navigator.clipboard.writeText(REDIR).then(()=>msg('Copiado'),()=>msg('Mantén pulsado para copiar'))}catch(x){msg('Mantén pulsado para copiar')}}
-function spLogout(){SP={cid:SP.cid};spSave();render()}
+function spLogout(){SP={cid:SP.cid};spSave();refreshSp()}
 async function api(path,opt={},retry=true){
   if(SP.exp&&Date.now()>SP.exp-60000&&SP.ref){try{await spToken({grant_type:'refresh_token',refresh_token:SP.ref})}catch(e){spLogout();throw new Error('Sesión caducada, vuelve a conectar Spotify')}}
   const r=await fetch('https://api.spotify.com/v1'+path,Object.assign({},opt,{headers:{Authorization:'Bearer '+SP.tok,'Content-Type':'application/json'}}));
@@ -544,7 +568,7 @@ async function spPlay(){
       SP.dev=dev.id;SP.devName=dev.name;spSave();
       r=await api('/me/player/play?device_id='+dev.id,{method:'PUT',body});
     }
-    if(r.ok||r.status===204){msg('🎵 Sonando…','sphint');startTimer();
+    if(r.ok||r.status===204){SP.started=true;SP.paused=false;render();msg('🎵 Sonando…','sphint');startTimer();
       if(off>0){const dq=SP.dev?'&device_id='+SP.dev:'';
         // Algunos dispositivos (p. ej. Spotify de escritorio) ignoran position_ms al empezar: forzamos el salto
         for(const wait of [700,1600]){await new Promise(res=>setTimeout(res,wait));
@@ -554,10 +578,16 @@ async function spPlay(){
     else{const j=await r.json().catch(()=>({}));msg(r.status===403?'Spotify no deja a esta cuenta: hace falta Premium y estar en User Management de la app.':'Error de Spotify: '+((j.error&&j.error.message)||r.status),'sphint')}
   }catch(e){msg(e.message,'sphint')}
 }
-async function spPause(){try{await api('/me/player/pause',{method:'PUT'});msg('⏸ En pausa','sphint')}catch(e){msg(e.message,'sphint')}}
+async function spPause(){try{const r=await api('/me/player/pause'+(SP.dev?'?device_id='+SP.dev:''),{method:'PUT'});SP.paused=true;
+  if(!(r.ok||r.status===204)){const j=await r.json().catch(()=>({}));msg('No se pudo pausar: '+((j.error&&j.error.message)||r.status)+'. Si suena en el iPhone, abre Spotify un momento y vuelve.','sphint')}
+  else msg('⏸ En pausa','sphint');if(S.screen==='game'&&S.game&&S.game.phase==='guess')render()}catch(e){msg(e.message,'sphint')}}
+async function spResume(){try{const r=await api('/me/player/play'+(SP.dev?'?device_id='+SP.dev:''),{method:'PUT'});SP.paused=false;
+  if(!(r.ok||r.status===204)){const j=await r.json().catch(()=>({}));msg('No se pudo continuar: '+((j.error&&j.error.message)||r.status),'sphint')}
+  else msg('🎵 Sonando…','sphint');render()}catch(e){msg(e.message,'sphint')}}
+function spToggle(){return SP.paused?spResume():spPause()}
 async function spDevices(){
   try{const d=await (await api('/me/player/devices')).json();const L=d.devices||[];
-    document.getElementById('devlist').innerHTML=L.length?L.map(x=>`<button class="btn ghost sm" style="margin:0 6px 6px 0" onclick="SP.dev='${x.id}';SP.devName='${esc(x.name).replace(/'/g,'')}';spSave();render()">${esc(x.name)}</button>`).join(''):'<p class="note">No veo dispositivos. Abre Spotify en el móvil o en el altavoz y dale al play una vez.</p>';
+    document.getElementById('devlist').innerHTML=L.length?L.map(x=>`<button class="btn ghost sm" style="margin:0 6px 6px 0" onclick="SP.dev='${x.id}';SP.devName='${esc(x.name).replace(/'/g,'')}';spSave();refreshSp()">${esc(x.name)}</button>`).join(''):'<p class="note">No veo dispositivos. Abre Spotify en el móvil o en el altavoz y dale al play una vez.</p>';
   }catch(e){msg(e.message)}
 }
 async function spImport(k,url){

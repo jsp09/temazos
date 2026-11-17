@@ -16,18 +16,21 @@ Funciona en el navegador del móvil, sin instalar nada. Con Spotify Premium las 
 
 ### Niveles
 
-Se elige para cada jugador o equipo:
+Se elige para todos en Reglas, o para cada jugador o equipo junto a su nombre:
 
-- **Normal:** basta con colocar la canción. Si además dices artista y título, ganas un comodín.
-- **Pro:** también hay que decir artista y título.
-- **Experto:** además, el año exacto.
-- **Al azar:** reparte los turnos así: la mitad Normal, un tercio Pro y el resto Experto, igual para todos.
+- **Fácil:** basta con colocar la canción. Si además dices título y artista, ganas un comodín.
+- **Medio:** colocarla y decir el artista o el título. Si dices los dos, ganas un comodín.
+- **Pro:** colocarla y decir artista y título.
+- **Experto:** además, el año exacto. Antes de sonar, el jugador elige de qué década quiere la canción.
+- **Al azar:** de cada 10 turnos, 4 Fácil, 3 Medio, 2 Pro y 1 Experto, igual para todos.
+
+Al revelar, la tarjeta sale en verde si está todo acertado, en naranja si falta confirmar lo que se ha dicho y en rojo si es un fallo.
 
 ### Comodines
 
 - 1 comodín: saltar una canción.
 - 3 comodines: comprar la carta, que se coloca sola.
-- Robar: apostar por otro hueco cuando juega otro. En Pro y Experto, quien roba también tiene que decir artista y título, y si lo consigue recupera el comodín.
+- Robar: apostar por otro hueco cuando juega otro. En Medio, Pro y Experto, quien roba también tiene que cumplir su nivel (artista o título en Medio; artista y título en Pro y Experto), y si lo consigue recupera el comodín.
 
 ## Opciones
 
@@ -43,7 +46,7 @@ Se elige para cada jugador o equipo:
 
 **Sin Premium:** el botón abre la canción en Spotify y la pone otro jugador (el DJ), sin enseñar la pantalla.
 
-**Con Premium:** pulsa **Conectar Spotify** en el menú. La canción suena en tu Spotify (móvil, altavoz o tele) sin salir del juego, puede empezar hacia el segundo 40 y se para al revelar el año.
+**Con Premium:** pulsa **Conectar Spotify** en el menú. La canción suena en tu Spotify (móvil, altavoz o tele) sin salir del juego, puede empezar hacia el segundo 40, se puede pausar y seguir, y se para al revelar el año o al acabar el temporizador.
 
 El juego viene configurado con mi app de Spotify, que en modo desarrollo solo admite 5 cuentas autorizadas. Para usar tu propia app:
 
