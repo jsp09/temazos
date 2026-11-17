@@ -262,7 +262,8 @@ function spPanel(){return `
       <div id="devlist"></div>
       <div class="set"><div class="l">Dónde empieza la canción<small>Spotify no dice dónde está el estribillo; hacia el segundo 40 suele quedar poco antes en la mayoría de canciones</small></div></div>
       <div class="seg" style="margin:-6px 0 16px">${[[0,'Principio'],[25,'25 s'],[40,'40 s'],['rand','Al azar']].map(([v,l])=>`<button class="${S.startAt===v?'on':''}" onclick="S.startAt=${JSON.stringify(v).replace(/"/g,"'")};save();refreshSp()">${l}</button>`).join('')}</div>
-      <div class="set"><div class="l">Mantener Spotify despierto<small>Para iPhone: al pausar suena silencio en vez de parar</small></div><div class="seg" style="min-width:130px"><button class="${S.keepAwake!==false?'on':''}" onclick="S.keepAwake=true;save();refreshSp()">Sí</button><button class="${S.keepAwake===false?'on':''}" onclick="S.keepAwake=false;save();refreshSp()">No</button></div></div>
+      <div class="set"><div class="l">Despertar Spotify con Atajos<small>Para iPhone: si Spotify se ha dormido, entra y sale de Spotify solo</small></div><div class="seg" style="min-width:130px"><button class="${S.atajo?'on':''}" onclick="S.atajo=true;save();refreshSp()">Sí</button><button class="${!S.atajo?'on':''}" onclick="S.atajo=false;save();refreshSp()">No</button></div></div>
+      ${S.atajo?`<p class="note" style="margin:-4px 0 12px">Crea una vez en la app Atajos un atajo llamado <b>Temazos</b> con dos acciones: <b>Abrir app</b> (Spotify) y <b>Esperar</b> (2 segundos). Nada más.</p>`:''}
       <div class="set"><div class="l">Parar la música al revelar el año</div><div class="seg" style="min-width:130px"><button class="${S.autoPause!==false?'on':''}" onclick="S.autoPause=true;save();refreshSp()">Sí</button><button class="${S.autoPause===false?'on':''}" onclick="S.autoPause=false;save();refreshSp()">No</button></div></div>`
     :`<p class="note" style="margin-bottom:12px">Para que las canciones suenen sin enseñar el título. Hace falta Spotify Premium.</p>
       <button class="btn cyan" onclick="spLogin()">Conectar Spotify</button>
@@ -398,7 +399,7 @@ function startTimer(){if(!S.timer||TIMER)return;unlockAudio();TEND=Date.now()+S.
 function stopTimer(){if(TIMER){clearInterval(TIMER);TIMER=null}}
 function tick(){const e=document.getElementById('timer');const left=Math.max(0,Math.ceil((TEND-Date.now())/1000));
   if(e){e.textContent=left?`${left} s`:'¡Tiempo!';e.className='timer'+(left<=5?' hot':'')}
-  if(!left){if(!BEEPED){BEEPED=true;beep();if(typeof spPause==='function'&&SP.tok)spPause()}stopTimer()}}
+  if(!left){if(!BEEPED){BEEPED=true;beep();if(typeof spPause==='function'&&SP.tok&&true)spPause()}stopTimer()}}
 function onPlayLink(){unlockAudio();startTimer()}
 /* --- render --- */
 const ICO={
@@ -451,7 +452,7 @@ function renderGame(){
       <div class="mbody">
         <span class="lvl lvl-${G.diff}">${LVLNAME[G.diff]}</span>
         <span class="minst">${LVLINST[G.diff]}</span>
-        ${SP.tok?`<div class="mbtns"><button class="btn orange" onclick="spPlay()">${SP.started?ICO.restart+'Desde el inicio':ICO.play+'Escuchar'}</button>${SP.started?`<button class="sq" aria-label="${SP.paused?'Seguir':'Pausa'}" onclick="spToggle()">${SP.paused?ICO.play:ICO.pause}</button>`:''}</div>${SP.wake?`<a class="btn ghost" style="margin-top:8px;text-decoration:none;display:flex;justify-content:center" href="spotify:" onclick="WAKEPEND=true">Abrir Spotify</a>`:''}
+        ${SP.tok?`<div class="mbtns"><button class="btn orange" onclick="spPlay()">${SP.started?ICO.restart+'Desde el inicio':ICO.play+'Escuchar'}</button>${SP.started?`<button class="sq" aria-label="${SP.paused?'Seguir':'Pausa'}" onclick="spToggle()">${SP.paused?ICO.play:ICO.pause}</button>`:''}</div>${SP.wake?`<a class="btn ghost" style="margin-top:8px;text-decoration:none;display:flex;justify-content:center" href="${S.atajo?WAKEURL():'spotify:'}" onclick="WAKEPEND=true">${S.atajo?'Despertar Spotify':'Abrir Spotify'}</a>`:''}
         <span class="hint" id="sphint">Suena en tu Spotify sin enseñar el título${S.startAt?', desde el segundo '+(S.startAt==='rand'?'30 a 60':S.startAt):''}</span>`
         :`<div class="mbtns"><a class="btn orange" href="${playUrl(c)}" target="_blank" rel="noopener" onclick="onPlayLink()">${ICO.play}Escuchar en Spotify</a></div>
         <span class="hint">Que la ponga otro jugador sin enseñar la pantalla y vuelva aquí</span>`}
@@ -539,14 +540,14 @@ function reveal(){
   if(okActive){c.o=G.turn;c.lv=G.diff;tl.splice(G.sel,0,c);if(G.mode==='shared')P.won++;refunded=S.refund?okSteals:[];refunded.forEach(p=>G.players[p].tokens++)}
   G.res={okActive,where:okActive?G.turn:null,card:c,refunded,cands:okActive?[]:okSteals};G.stealNamed={};
   G.phase='reveal';G.bonus=false;G.chk={};
-  if(typeof spPause==='function'&&SP.tok&&S.autoPause!==false)spPause();
+  if(typeof spPause==='function'&&SP.tok&&S.autoPause!==false&&true)spPause();
   save();render();
 }
 function buyCard(){
   snap();stopTimer();const G=G_(),P=G.players[G.turn],tl=tlOf(G),c=G.card;
   P.tokens-=3;P.st.bought++;c.o=G.turn;c.lv='buy';insertSorted(tl,c);if(G.mode==='shared')P.won++;
   G.res={okActive:true,where:G.turn,card:c,refunded:[],bought:true};G.phase='reveal';
-  if(typeof spPause==='function'&&SP.tok&&S.autoPause!==false)spPause();
+  if(typeof spPause==='function'&&SP.tok&&S.autoPause!==false&&true)spPause();
   save();render();
 }
 function fixYear(v){
@@ -671,6 +672,7 @@ async function spPlay(){
     }
     SP.wake=false;
     if(r.ok||r.status===204){SP.started=true;SP.paused=false;render();msg('Sonando…','sphint');startTimer();
+      if(awake())api('/me/player/repeat?state=track'+(SP.dev?'&device_id='+SP.dev:''),{method:'PUT'}).catch(()=>{});
       if(off>0){const dq=SP.dev?'&device_id='+SP.dev:'';
         // Algunos dispositivos ignoran position_ms al arrancar. Comprobamos una sola vez y solo saltamos si empezó claramente desde el principio
         await new Promise(res=>setTimeout(res,900));
@@ -679,7 +681,10 @@ async function spPlay(){
     else{const j=await r.json().catch(()=>({}));msg(r.status===403?'Spotify no deja a esta cuenta: hace falta Premium y estar en User Management de la app.':'Error de Spotify: '+((j.error&&j.error.message)||r.status),'sphint')}
   }catch(e){msg(e.message,'sphint')}
 }
-function spWakeUI(){SP.wake=true;WAKEPEND=true;render();msg('Spotify está dormido. Ábrelo, vuelve aquí y sonará solo.','sphint')}
+const WAKEURL=()=>'shortcuts://x-callback-url/run-shortcut?name=Temazos&x-success='+encodeURIComponent(REDIR+'?wake=1');
+function spWakeUI(){SP.wake=true;WAKEPEND=true;render();
+  if(S.atajo){msg('Despertando Spotify…','sphint');location.href=WAKEURL()}
+  else msg('Spotify está dormido. Ábrelo, vuelve aquí y sonará solo.','sphint')}
 let WAKEPEND=false;
 document.addEventListener('visibilitychange',()=>{if(!document.hidden&&WAKEPEND&&S.game&&S.game.phase==='guess'){WAKEPEND=false;setTimeout(spPlay,800)}});
 // iOS duerme Spotify a los pocos segundos de pausar. Para evitarlo, "pausar" pone una pista de silencio en bucle y "seguir" vuelve a la canción donde estaba
@@ -690,7 +695,7 @@ async function silentId(){
     if(it){SP.sil=it.id;spSave()}}catch(e){}
   return SP.sil;
 }
-const awake=()=>S.keepAwake!==false;
+const awake=()=>false;
 async function hardPause(){return api('/me/player/pause'+(SP.dev?'?device_id='+SP.dev:''),{method:'PUT'})}
 async function spPause(){try{
   let r,ok=false;
@@ -704,7 +709,7 @@ async function spPause(){try{
   if(!ok){r=await hardPause();ok=r.ok||r.status===204;SP.pos=null}
   SP.paused=true;
   if(!ok){const j=await r.json().catch(()=>({}));msg('No se pudo pausar: '+((j.error&&j.error.message)||r.status)+'. Si suena en el iPhone, abre Spotify un momento y vuelve.','sphint')}
-  else msg('En pausa','sphint');if(S.screen==='game'&&S.game&&S.game.phase==='guess')render()}catch(e){msg(e.message,'sphint')}}
+  else msg(SP.pos!=null?'En pausa':(awake()?'En pausa. Ojo: en iPhone, si pasa mucho rato, Spotify se puede dormir':'En pausa'),'sphint');if(S.screen==='game'&&S.game&&S.game.phase==='guess')render()}catch(e){msg(e.message,'sphint')}}
 async function spResume(){try{
   const dq=SP.dev?'?device_id='+SP.dev:'';
   const r=SP.pos!=null&&SP.posId?await api('/me/player/play'+dq,{method:'PUT',body:JSON.stringify({uris:['spotify:track:'+SP.posId],position_ms:SP.pos})}):await api('/me/player/play'+dq,{method:'PUT'});
@@ -733,6 +738,7 @@ async function spImport(k,url){
 function render(){if(document.body)document.body.classList.toggle('tv',!!S.tv);({setup:renderSetup,game:renderGame,win:renderWin})[S.screen]()}
 if(S.screen!=='setup'&&!S.game)S.screen='setup';
 render();spCallback();
+if(new URLSearchParams(location.search).has('wake')){history.replaceState(null,'',REDIR);if(S.screen==='game'&&S.game&&S.game.phase==='guess'&&SP.tok)setTimeout(spPlay,1200)}
 </script>
 </body>
 </html>
