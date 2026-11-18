@@ -37,11 +37,11 @@ h1{font-family:'Dela Gothic One',Impact,sans-serif;font-weight:400;font-size:46p
 .catban small{display:block;font-size:13px;font-weight:800}.catban b{display:block;font-family:'Dela Gothic One',Impact,sans-serif;font-weight:400;font-size:24px;line-height:1.1;margin:2px 0}.catban span{font-size:15px}
 .bleg{display:flex;flex-wrap:wrap;gap:6px 12px;margin:0 0 10px;font-size:13px;font-weight:800}.bleg span{display:inline-flex;align-items:center;gap:5px}.bleg i{width:14px;height:14px;border:2px solid var(--ink);display:inline-block}
 .bcards{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
-.bcard{background:#fff;border:3px solid var(--ink);box-shadow:4px 4px 0 var(--ink);padding:8px}
+.bcard{min-width:0;background:#fff;border:3px solid var(--ink);box-shadow:4px 4px 0 var(--ink);padding:8px}
 .bcard.cur{box-shadow:4px 4px 0 var(--pink)}
 .bcard h3{margin:0 0 6px;font-size:15px;display:flex;align-items:center;gap:6px}
-.bgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:4px}
-.cell{aspect-ratio:1;border:2px solid var(--ink);display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:900;padding:0;cursor:pointer;color:var(--ink)}
+.bgrid{display:grid;gap:4px}
+.cell{aspect-ratio:1;min-width:0;min-height:0;width:100%;border:2px solid var(--ink);display:flex;align-items:center;justify-content:center;font-size:clamp(14px,4vw,24px);line-height:1;overflow:hidden;font-weight:900;padding:0;cursor:pointer;color:var(--ink)}
 .cell:disabled{cursor:default}.cell.dim{opacity:.35}.cell.go{outline:3px solid var(--ink);outline-offset:1px}
 .bans{font-size:15px;font-weight:800;margin-top:6px}
 .panel{background:#fff;border:3px solid var(--ink);box-shadow:4px 4px 0 var(--ink);padding:16px;margin-bottom:16px}
@@ -321,7 +321,7 @@ function renderSetup(){
   <div class="panel"><h2>Modalidad</h2>
     <div class="seg">${Object.entries(GMS).map(([k,v])=>`<button class="${(S.gm||'classic')===k?'on':''}" onclick="S.gm='${k}';save();render()">${v.n}</button>`).join('')}</div>
     <p class="note" style="margin-top:10px">${GMS[S.gm||'classic'].d}</p>
-    ${S.gm==='bingo'?`<div class="set" style="margin-top:12px"><div class="l">Cartón<small>${S.side==='B'?'Título, año exacto, artista, década y año ±3':'Grupo o solista, ¿antes del 2000?, década, año ±4 y año ±2'}</small></div></div><div class="seg"><button class="${S.side!=='B'?'on':''}" onclick="S.side='A';save();render()">Cara A, principiantes</button><button class="${S.side==='B'?'on':''}" onclick="S.side='B';save();render()">Cara B, expertos</button></div>`:''}
+    ${S.gm==='bingo'?`<div class="set" style="margin-top:12px"><div class="l">Cartón<small>${S.side==='B'?'Título, año exacto, artista, década y año ±3':'Grupo o solista, ¿antes del 2000?, década, año ±4 y año ±2'}</small></div></div><div class="seg"><button class="${S.side!=='B'?'on':''}" onclick="S.side='A';save();render()">Cara A, principiantes</button><button class="${S.side==='B'?'on':''}" onclick="S.side='B';save();render()">Cara B, expertos</button></div><div class="set" style="margin-top:12px"><div class="l">Casillas por fila<small>${bN()}×${bN()}. ${bN()===5?'Como el oficial':bN()<5?'Partida más corta':'Partida más larga'}</small></div><div class="stepper"><button onclick="S.bsize=Math.max(3,bN()-1);save();render()">−</button><b>${bN()}</b><button onclick="S.bsize=Math.min(6,bN()+1);save();render()">+</button></div></div>`:''}
   </div>
   <div class="panel"><h2>Jugadores o equipos</h2>
     <p class="note" style="margin-bottom:10px">Para jugar por equipos, pon un nombre por equipo. El nivel de dificultad se elige en Reglas y es el mismo para todos.</p>
@@ -550,6 +550,7 @@ function renderGame(){
   </div>
   <div class="rotate">Gira el móvil en horizontal para el modo tele</div>
   ${scoresHTML(G)}
+  ${G.tie?`<p class="note" style="color:var(--ink);margin:0 0 10px"><b>Desempate:</b> ${G.tie.map(i=>esc(G.players[i].name)).join(' y ')} empatan. Juegan una ronda más solo ellos; gana quien acabe con más cartas.</p>`:G.lastRound?`<p class="note" style="color:var(--ink);margin:0 0 10px"><b>Última ronda:</b> ${(G.lastBy||[]).map(i=>esc(G.players[i].name)).join(' y ')} ha llegado a ${S.target}. ${G.players.slice(G.turn).map(p=>esc(p.name)).join(' y ')} ${G.players.length-G.turn>1?'han empezado después y tienen':'ha empezado después y tiene'} un último turno para empatar.</p>`:''}
   <div class="board"><div class="side">${mid}</div>
   <div><h2 class="tlh">${tlTitle}</h2>${legendHTML(tl)}<div class="tl">${list}</div></div></div>`;
   if(TIMER)tick();
@@ -614,9 +615,14 @@ function nextTurn(){
       if(G.mode==='shared'){G.shared.splice(s.gap,0,c);W.won++}else insertSorted(W.tl,c);
       W.st.stealHits++;addDec(W,c);if(levelOf(G,w)!=='normal')W.tokens++}
     if(S.refund)(r.cands||[]).filter(p=>p!==w&&qualifies(G,p)).forEach(p=>G.players[p].tokens++);}
-  const w=G.players.findIndex(p=>score(G,p)>=S.target);
+  const n=G.players.length,sc=i=>score(G,G.players[i]);let nxt=(G.turn+1)%n,w=-1;
+  if(G.tie){const idx=G.tie.indexOf(G.turn);
+    if(idx===G.tie.length-1){const mx=Math.max(...G.tie.map(sc)),top=G.tie.filter(i=>sc(i)===mx);if(top.length===1)w=top[0];else G.tie=top;nxt=G.tie[0]}
+    else nxt=G.tie[idx+1]}
+  else{const reached=G.players.map((_,i)=>i).filter(i=>sc(i)>=S.target);
+    if(reached.length){if(nxt===0){const mx=Math.max(...reached.map(sc)),top=reached.filter(i=>sc(i)===mx);if(top.length===1)w=top[0];else{G.tie=top;G.lastRound=false;nxt=top[0]}}else{if(!G.lastRound)G.lastBy=G.players.map((_,i)=>i).filter(i=>sc(i)>=S.target);G.lastRound=true}}}
   if(w>=0){G.winner=w;if(typeof hardPause==='function'&&SP.tok)hardPause().catch(()=>{});S.screen='win';save();render();return}
-  G.turn=(G.turn+1)%G.players.length;drawCard();beginTurn();save();render();
+  G.turn=nxt;drawCard();beginTurn();save();render();
 }
 function renderWin(){
   const G=G_(),P=G.players[G.winner];
@@ -634,10 +640,11 @@ function renderWin(){
 const BCATS={A:[{k:'group',n:'Grupo o solista',q:'¿Es un grupo o un solista?',c:'#FF5FA2'},{k:'pre2000',n:'¿Antes del 2000?',q:'¿Salió antes del año 2000?',c:'#4CC3FF'},{k:'decade',n:'Década',q:'¿De qué década es?',c:'#FF7A1A'},{k:'y4',n:'Año ±4',q:'Di el año. Vale si te desvías 4 años o menos',c:'#9B6BFF'},{k:'y2',n:'Año ±2',q:'Di el año. Vale si te desvías 2 años o menos',c:'#B5F23D'}],
   B:[{k:'title',n:'Título',q:'¿Cómo se llama la canción?',c:'#FF5FA2'},{k:'exact',n:'Año exacto',q:'Di el año exacto',c:'#4CC3FF'},{k:'artist',n:'Artista',q:'¿Quién la canta?',c:'#FF7A1A'},{k:'decade',n:'Década',q:'¿De qué década es?',c:'#9B6BFF'},{k:'y3',n:'Año ±3',q:'Di el año. Vale si te desvías 3 años o menos',c:'#B5F23D'}]};
 const bcats=G=>BCATS[G.side||'A'];
+const bN=()=>Math.max(3,Math.min(6,+S.bsize||5));
 function startBingo(){
-  UNDO=[];const players=S.players.map((n,i)=>{const ks=shuffle([0,0,0,1,1,1,2,2,2,3,3,3,4,4,4,Math.random()*5|0]);return {name:n.trim()||'Jugador '+(i+1),c:COLORS[i%8],cells:ks.map(k=>({k,m:0}))}});
+  UNDO=[];const N=bN();const players=S.players.map((n,i)=>{const base=[];for(let j=0;j<N*N;j++)base.push(j<Math.floor(N*N/5)*5?j%5:Math.random()*5|0);const ks=shuffle(base);return {name:n.trim()||'Jugador '+(i+1),c:COLORS[i%8],cells:ks.map(k=>({k,m:0}))}});
   const deck=shuffle(pool());
-  S.game={gm:'bingo',side:S.side==='B'?'B':'A',players,deck,turn:0,card:deck.pop(),phase:'spin',cat:null,rot:0,marked:{},rm:null,final:null,winner:null};
+  S.game={gm:'bingo',n:N,side:S.side==='B'?'B':'A',players,deck,turn:0,card:deck.pop(),phase:'spin',cat:null,rot:0,marked:{},rm:null,final:null,winner:null};
   bNewTurn();S.screen='bingo';save();render();
 }
 function bNewTurn(){const G=G_();G.phase='spin';G.cat=null;G.marked={};G.rm=null;stopTimer();if(typeof SP!=='undefined'){SP.started=false;SP.paused=false;SP.wake=false}}
@@ -652,8 +659,8 @@ function bReveal(){snap();stopTimer();const G=G_();G.phase='reveal';if(typeof sp
 function bAnswer(G){const c=G.card,y=c.y,k=bcats(G)[G.cat].k;
   return {group:`${esc(c.a)}. Decidid vosotros si es grupo o solista`,pre2000:y<2000?`Sí, es de ${y}`:`No, es de ${y}`,decade:`Los ${y<2000?String(decOf(y)).slice(2):decOf(y)}, es de ${y}`,
     y4:`${y}. Vale de ${y-4} a ${y+4}`,y2:`${y}. Vale de ${y-2} a ${y+2}`,y3:`${y}. Vale de ${y-3} a ${y+3}`,title:esc(c.t),exact:String(y),artist:esc(c.a)}[k]}
-function bLines(cells){const m=i=>cells[i].m,L=[];
-  for(let r=0;r<4;r++)L.push([0,1,2,3].map(c=>r*4+c));for(let c=0;c<4;c++)L.push([0,1,2,3].map(r=>r*4+c));L.push([0,5,10,15],[3,6,9,12]);
+function bLines(cells){const m=i=>cells[i].m,L=[],N=Math.round(Math.sqrt(cells.length)),R=[...Array(N).keys()];
+  R.forEach(r=>L.push(R.map(c=>r*N+c)));R.forEach(c=>L.push(R.map(r=>r*N+c)));L.push(R.map(i=>i*N+i),R.map(i=>i*N+N-1-i));
   return L.some(l=>l.every(m))}
 function bTap(pi,ci){
   const G=G_();if(G.phase!=='reveal'||G.final)return;const cell=G.players[pi].cells[ci];
@@ -669,13 +676,14 @@ function bNext(){
   if(w.length>1)G.final=w;
   G.turn=(G.turn+1)%G.players.length;G.card=G.deck.length?G.deck.pop():(G.deck=shuffle(pool()),G.deck.pop());G.rmDone={};bNewTurn();save();render();
 }
+function bTieAgain(){snap();const G=G_();G.turn=(G.turn+1)%G.players.length;G.card=G.deck.length?G.deck.pop():(G.deck=shuffle(pool()),G.deck.pop());bNewTurn();save();render()}
 function bFinalWin(i){snap();const G=G_();G.winner=i;if(typeof hardPause==='function'&&SP.tok)hardPause().catch(()=>{});S.screen='bwin';save();render()}
 function wheelHTML(G){const C=bcats(G);
   const grad=C.map((c,i)=>`${c.c} ${i*72}deg ${(i+1)*72}deg`).join(',');
   const lab=C.map((c,i)=>{const a=(i*72+36)*Math.PI/180;return `<span><b style="left:${Math.sin(a)*68}px;top:${-Math.cos(a)*68}px">${esc(c.n).replace(' ','<br>')}</b></span>`}).join('');
   return `<div class="wheelw"><div class="ptr"></div><div class="wheel" id="wheel" style="background:conic-gradient(${grad});transform:rotate(${G.spinning?(G.rot0||0):(G.rot||0)}deg)">${lab}</div><div class="hub"></div></div>`}
 function bCardHTML(G,p,pi){const C=bcats(G);
-  return `<div class="bcard ${pi===G.turn?'cur':''}"><h3><span class="dot" style="background:${p.c}"></span>${esc(p.name)}</h3><div class="bgrid">${p.cells.map((x,ci)=>{
+  return `<div class="bcard ${pi===G.turn?'cur':''}"><h3><span class="dot" style="background:${p.c}"></span>${esc(p.name)}</h3><div class="bgrid" style="grid-template-columns:repeat(${G.n||4},minmax(0,1fr))">${p.cells.map((x,ci)=>{
     const canMark=G.phase==='reveal'&&!G.final&&G.rm==null&&x.k===G.cat&&!x.m&&G.marked[pi]==null;
     const canUn=G.phase==='reveal'&&G.rm==null&&x.m&&G.marked[pi]===ci;
     const canRm=G.rm!=null&&pi!==G.rm&&x.m;
@@ -700,7 +708,7 @@ function renderBingo(){
     const exactOpt=G.side!=='B'&&(cat.k==='y4'||cat.k==='y2')&&!G.final;
     mid+=`<div class="reveal ok" style="background:${cat.c}"><div class="discpan">${disc(D,cat.c,String(c.y).slice(2),S.tv?30:17)}</div>
       <div class="rb"><span class="res">${cat.n}</span><span class="yr">${c.y}</span><span class="t">${esc(c.t)}</span><span class="a">${esc(c.a)}</span><span class="bans">${bAnswer(G)}</span></div></div>
-      ${G.final?`<p class="note" style="color:var(--ink);margin:0 0 8px">Desempate. ¿Quién ha acertado?</p><div class="togs">${G.final.map(i=>`<button class="btn sm" onclick="bFinalWin(${i})">${esc(G.players[i].name)} acertó</button>`).join('')}</div>`
+      ${G.final?`<p class="note" style="color:var(--ink);margin:0 0 8px">Desempate. ¿Quién ha acertado?</p><div class="togs">${G.final.map(i=>`<button class="btn sm" onclick="bFinalWin(${i})">Solo ${esc(G.players[i].name)} acertó</button>`).join('')}</div><button class="btn sm dash" style="width:100%;margin-bottom:10px" onclick="bTieAgain()">Acertaron varios o nadie: otra canción</button>`
       :G.rm!=null?`<p class="note" style="color:var(--ink);margin:0 0 8px"><b>${esc(G.players[G.rm].name)}</b> clavó el año: toca una casilla marcada de un rival para quitársela.</p><button class="btn sm" style="margin-bottom:10px" onclick="S.game.rm=null;save();render()">Cancelar</button>`
       :`<p class="note" style="color:var(--ink);margin:0 0 8px">Quien haya acertado, que toque una casilla de este color en su cartón.</p>
         ${exactOpt?`<div class="togs">${G.players.map((p,i)=>(G.rmDone||{})[i]?'':`<button class="btn sm dash" onclick="snap();S.game.rm=${i};S.game.rmBy=${i};save();render()">${esc(p.name)} clavó el año</button>`).join('')}</div><p class="note" style="margin:0 0 10px">Clavar el año exacto deja quitar una cruz a un rival.</p>`:''}`}
